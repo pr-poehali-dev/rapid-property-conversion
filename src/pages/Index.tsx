@@ -54,6 +54,16 @@ function Navbar() {
         </div>
 
         <div className="hidden lg:flex items-center gap-3">
+          {/* Бейдж Т-Банк */}
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border font-golos text-xs font-bold"
+            style={{
+              background: scrolled ? "#fff8e1" : "rgba(255,221,0,0.15)",
+              borderColor: scrolled ? "#FFDD00" : "rgba(255,221,0,0.5)",
+              color: scrolled ? "#1a1a1a" : "#FFDD00",
+            }}>
+            <span className="text-sm">🏦</span>
+            Партнёр Т-Банк · Кэшбэк
+          </div>
           <a href={`tel:+${PHONE}`} className="flex items-center gap-2 font-montserrat font-bold text-sm"
             style={{ color: scrolled ? "var(--green-dark)" : "white" }}>
             <Icon name="Phone" size={16} />
@@ -86,6 +96,11 @@ function Navbar() {
               style={{ color: "var(--green-main)" }}>
               <Icon name="Phone" size={16} />{PHONE_DISPLAY}
             </a>
+            <div className="flex items-center gap-2 mt-2 mb-1 px-3 py-2 rounded-xl"
+              style={{ background: "#fff8e1", border: "1px solid #FFDD00" }}>
+              <span>🏦</span>
+              <span className="font-golos text-xs font-bold" style={{ color: "#1a1a1a" }}>Партнёр Т-Банк · Кэшбэк</span>
+            </div>
             <div className="flex gap-2 mt-1">
               <a href={WA_LINK} target="_blank" rel="noopener noreferrer"
                 className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-golos font-semibold text-sm text-white"
@@ -1085,14 +1100,14 @@ function ExitPopup() {
             <p className="font-golos text-sm mb-5" style={{ color: "var(--text-muted)" }}>
               Обычно мы перезваниваем за 10 минут
             </p>
-            <div className="flex gap-2">
-              <a href={WA_LINK} target="_blank" rel="noopener noreferrer"
-                className="flex-1 py-3 rounded-xl font-golos font-bold text-sm text-white text-center"
-                style={{ background: "#25D366" }}>WhatsApp</a>
-              <a href={TG_LINK} target="_blank" rel="noopener noreferrer"
-                className="flex-1 py-3 rounded-xl font-golos font-bold text-sm text-white text-center"
-                style={{ background: "#2AABEE" }}>Telegram</a>
-            </div>
+            <a href={TG_LINK} target="_blank" rel="noopener noreferrer"
+              className="w-full flex items-center justify-center gap-3 py-3.5 rounded-xl font-montserrat font-bold text-base text-white"
+              style={{ background: "#2AABEE" }}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
+                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.17 13.857l-2.965-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.983.702z"/>
+              </svg>
+              Написать в Telegram прямо сейчас
+            </a>
           </div>
         ) : (
           <>
@@ -1256,19 +1271,15 @@ function Contacts() {
                   <Icon name="CheckCircle" size={40} className="text-white" />
                 </div>
                 <h3 className="font-montserrat font-black text-2xl text-white mb-3">Заявка принята!</h3>
-                <p className="font-golos text-white/80 mb-6">Наш эксперт перезвонит вам в течение 10 минут</p>
-                <div className="flex gap-3 justify-center">
-                  <a href={WA_LINK} target="_blank" rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-5 py-3 rounded-xl font-golos font-bold text-sm text-white"
-                    style={{ background: "#25D366" }}>
-                    WhatsApp
-                  </a>
-                  <a href={TG_LINK} target="_blank" rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-5 py-3 rounded-xl font-golos font-bold text-sm text-white"
-                    style={{ background: "#2AABEE" }}>
-                    Telegram
-                  </a>
-                </div>
+                <p className="font-golos text-white/80 mb-6">Наш эксперт перезвонит вам в течение 10 минут.<br/>Или напишите прямо сейчас — ответим быстрее!</p>
+                <a href={TG_LINK} target="_blank" rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 w-full py-4 rounded-xl font-montserrat font-bold text-base text-white"
+                  style={{ background: "#2AABEE" }}>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
+                    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.17 13.857l-2.965-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.983.702z"/>
+                  </svg>
+                  Написать в Telegram
+                </a>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="bg-white p-8 rounded-3xl space-y-5"
