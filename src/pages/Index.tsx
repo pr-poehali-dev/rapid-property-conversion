@@ -809,6 +809,143 @@ const WA_LINK = `https://wa.me/${PHONE}`;
 const TG_LINK = "https://t.me/creditdevil";
 const PHONE_DISPLAY = "+7 (968) 486-26-22";
 
+// ── ExitPopup ─────────────────────────────────────────
+function ExitPopup() {
+  const [show, setShow] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [phone, setPhone] = useState("");
+  const [service, setService] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    // Показываем через 20 сек или при попытке уйти
+    const timer = setTimeout(() => setShow(true), 20000);
+    const onLeave = (e: MouseEvent) => { if (e.clientY < 10) setShow(true); };
+    document.addEventListener("mouseleave", onLeave);
+    return () => { clearTimeout(timer); document.removeEventListener("mouseleave", onLeave); };
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!phone || !service) return;
+    setLoading(true);
+    try {
+      await fetch(LEAD_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: "—", phone, obj: service, comment: "", source: "попап" }),
+      });
+    } catch (err) { console.error(err); }
+    setLoading(false);
+    setSent(true);
+  };
+
+  if (!show) return null;
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+      style={{ background: "rgba(0,0,0,0.6)", backdropFilter: "blur(4px)" }}
+      onClick={(e) => { if (e.target === e.currentTarget) setShow(false); }}>
+      <div className="bg-white rounded-3xl p-7 w-full max-w-md shadow-2xl relative animate-fade-in">
+        <button onClick={() => setShow(false)}
+          className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors"
+          style={{ color: "var(--text-muted)" }}>
+          <Icon name="X" size={18} />
+        </button>
+
+        {sent ? (
+          <div className="text-center py-4">
+            <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
+              style={{ background: "var(--green-light)" }}>
+              <Icon name="CheckCircle" size={32} style={{ color: "var(--green-main)" }} />
+            </div>
+            <h3 className="font-montserrat font-black text-xl mb-2" style={{ color: "var(--text-dark)" }}>
+              Перезвоним вам!
+            </h3>
+            <p className="font-golos text-sm mb-5" style={{ color: "var(--text-muted)" }}>
+              Обычно мы перезваниваем за 10 минут
+            </p>
+            <div className="flex gap-2">
+              <a href={WA_LINK} target="_blank" rel="noopener noreferrer"
+                className="flex-1 py-3 rounded-xl font-golos font-bold text-sm text-white text-center"
+                style={{ background: "#25D366" }}>WhatsApp</a>
+              <a href={TG_LINK} target="_blank" rel="noopener noreferrer"
+                className="flex-1 py-3 rounded-xl font-golos font-bold text-sm text-white text-center"
+                style={{ background: "#2AABEE" }}>Telegram</a>
+            </div>
+          </div>
+        ) : (
+          <>
+            <div className="text-center mb-5">
+              <div className="text-3xl mb-2">⚡</div>
+              <h3 className="font-montserrat font-black text-xl mb-1" style={{ color: "var(--text-dark)" }}>
+                Бесплатная консультация
+              </h3>
+              <p className="font-golos text-sm" style={{ color: "var(--text-muted)" }}>
+                Оставьте номер — перезвоним за 10 минут
+              </p>
+            </div>
+            <form onSubmit={handleSubmit} className="space-y-3">
+              <div className="grid grid-cols-2 gap-2">
+                {SERVICES_LIST.map((s) => (
+                  <button key={s.label} type="button"
+                    onClick={() => setService(s.label)}
+                    className="text-left px-3 py-2 rounded-xl font-golos text-xs font-medium border transition-all"
+                    style={{
+                      background: service === s.label ? "var(--green-main)" : "var(--warm-bg)",
+                      color: service === s.label ? "white" : "var(--text-dark)",
+                      borderColor: service === s.label ? "var(--green-main)" : "var(--border)",
+                    }}>
+                    {s.label}
+                  </button>
+                ))}
+              </div>
+              <input type="tel" required placeholder="Ваш телефон *"
+                value={phone} onChange={(e) => setPhone(e.target.value)}
+                className="w-full px-4 py-3 rounded-xl font-golos text-sm focus:outline-none"
+                style={{ background: "var(--warm-bg)", border: "1.5px solid var(--border)", color: "var(--text-dark)" }} />
+              <button type="submit" disabled={loading || !service}
+                className="btn-green w-full py-3.5 rounded-xl font-montserrat font-bold text-white disabled:opacity-50">
+                {loading ? "Отправляем..." : "Перезвоните мне →"}
+              </button>
+            </form>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ── StickyBar ─────────────────────────────────────────
+function StickyBar() {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const fn = () => setVisible(window.scrollY > 600);
+    window.addEventListener("scroll", fn);
+    return () => window.removeEventListener("scroll", fn);
+  }, []);
+
+  if (!visible) return null;
+
+  return (
+    <div className="fixed bottom-0 left-0 right-0 z-40 lg:hidden"
+      style={{ background: "var(--green-dark)", boxShadow: "0 -4px 20px rgba(0,0,0,0.2)" }}>
+      <div className="flex gap-2 p-3 max-w-sm mx-auto">
+        <a href={`tel:+${PHONE}`}
+          className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-montserrat font-bold text-sm text-white border-2 border-white/30">
+          <Icon name="Phone" size={16} />
+          Позвонить
+        </a>
+        <a href="#contacts"
+          className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-montserrat font-bold text-sm text-white"
+          style={{ background: "var(--gold)" }}>
+          Оставить заявку
+        </a>
+      </div>
+    </div>
+  );
+}
+
 // ── FloatingButtons ───────────────────────────────────
 function FloatingButtons() {
   return (
@@ -834,14 +971,12 @@ function FloatingButtons() {
 }
 
 const SERVICES_LIST = [
-  "Срочный выкуп квартиры",
-  "Срочный выкуп дома / дачи",
-  "Срочный выкуп коммерции",
-  "Кредит под залог недвижимости (физ. лицо)",
-  "Кредит под залог недвижимости (юр. лицо)",
-  "Квартира в залоге — нужна помощь",
-  "Ипотечная квартира — нужна помощь",
-  "Другое — хочу проконсультироваться",
+  { label: "🏠 Срочный выкуп квартиры", emoji: "🏠" },
+  { label: "🏡 Выкуп дома / дачи / коммерции", emoji: "🏡" },
+  { label: "💳 Кредитование физ. лица", emoji: "💳" },
+  { label: "🏢 Кредитование юр. лица", emoji: "🏢" },
+  { label: "🔒 Квартира в залоге / ипотека", emoji: "🔒" },
+  { label: "💬 Консультация", emoji: "💬" },
 ];
 
 // ── Contacts ──────────────────────────────────────────
@@ -924,53 +1059,40 @@ function Contacts() {
                   </span>
                 </div>
 
-                {/* Выбор услуги */}
+                {/* Выбор услуги — сетка 2×3 */}
                 <div>
-                  <label className="block font-golos font-semibold text-sm mb-3" style={{ color: "var(--text-dark)" }}>
+                  <label className="block font-golos font-semibold text-sm mb-2" style={{ color: "var(--text-dark)" }}>
                     Что вас интересует? *
                   </label>
-                  <div className="grid grid-cols-1 gap-2">
+                  <div className="grid grid-cols-2 gap-2">
                     {SERVICES_LIST.map((s) => (
-                      <button key={s} type="button"
-                        onClick={() => setForm({ ...form, service: s })}
-                        className="text-left px-4 py-3 rounded-xl font-golos text-sm font-medium transition-all border"
+                      <button key={s.label} type="button"
+                        onClick={() => setForm({ ...form, service: s.label })}
+                        className="text-left px-3 py-2.5 rounded-xl font-golos text-xs font-medium transition-all border leading-snug"
                         style={{
-                          background: form.service === s ? "var(--green-main)" : "var(--warm-bg)",
-                          color: form.service === s ? "white" : "var(--text-dark)",
-                          borderColor: form.service === s ? "var(--green-main)" : "var(--border)",
+                          background: form.service === s.label ? "var(--green-main)" : "var(--warm-bg)",
+                          color: form.service === s.label ? "white" : "var(--text-dark)",
+                          borderColor: form.service === s.label ? "var(--green-main)" : "var(--border)",
                         }}>
-                        {form.service === s ? "✓ " : ""}{s}
+                        {s.label}
                       </button>
                     ))}
                   </div>
-                  {!form.service && (
-                    <p className="text-xs mt-1 font-golos" style={{ color: "var(--text-muted)" }}>Выберите одну из услуг выше</p>
-                  )}
                 </div>
 
-                <div className="grid sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block font-golos font-semibold text-sm mb-2" style={{ color: "var(--text-dark)" }}>Ваше имя *</label>
-                    <input type="text" required placeholder="Иван Иванов"
+                    <input type="text" required placeholder="Ваше имя *"
                       value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
                       className="w-full px-4 py-3 rounded-xl font-golos text-sm focus:outline-none"
                       style={{ background: "var(--warm-bg)", border: "1.5px solid var(--border)", color: "var(--text-dark)" }} />
                   </div>
                   <div>
-                    <label className="block font-golos font-semibold text-sm mb-2" style={{ color: "var(--text-dark)" }}>Телефон *</label>
-                    <input type="tel" required placeholder="+7 (___) ___-__-__"
+                    <input type="tel" required placeholder="Телефон *"
                       value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })}
                       className="w-full px-4 py-3 rounded-xl font-golos text-sm focus:outline-none"
                       style={{ background: "var(--warm-bg)", border: "1.5px solid var(--border)", color: "var(--text-dark)" }} />
                   </div>
-                </div>
-
-                <div>
-                  <label className="block font-golos font-semibold text-sm mb-2" style={{ color: "var(--text-dark)" }}>Комментарий</label>
-                  <textarea rows={2} placeholder="Кратко опишите ситуацию..."
-                    value={form.comment} onChange={(e) => setForm({ ...form, comment: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl font-golos text-sm focus:outline-none resize-none"
-                    style={{ background: "var(--warm-bg)", border: "1.5px solid var(--border)", color: "var(--text-dark)" }} />
                 </div>
 
                 <button type="submit" disabled={loading || !form.service}
@@ -990,8 +1112,8 @@ function Contacts() {
               <div className="absolute inset-0 flex items-end p-6"
                 style={{ background: "linear-gradient(to top, rgba(26,92,46,0.7), transparent)" }}>
                 <div>
-                  <p className="font-montserrat font-bold text-white">Москва, Проспект Мира, 45</p>
-                  <p className="font-golos text-white/80 text-sm">Пн-Вс: 08:00 – 22:00</p>
+                  <p className="font-montserrat font-bold text-white">Работаем 24/7 по всей России</p>
+                  <p className="font-golos text-white/80 text-sm">Москва · МО · Санкт-Петербург · Все регионы</p>
                 </div>
               </div>
             </div>
@@ -1099,6 +1221,8 @@ export default function Index() {
       <Contacts />
       <Footer />
       <FloatingButtons />
+      <StickyBar />
+      <ExitPopup />
     </div>
   );
 }
