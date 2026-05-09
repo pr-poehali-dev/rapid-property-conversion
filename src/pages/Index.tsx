@@ -54,10 +54,10 @@ function Navbar() {
         </div>
 
         <div className="hidden lg:flex items-center gap-3">
-          <a href="tel:+74951234567" className="flex items-center gap-2 font-montserrat font-bold text-sm"
+          <a href={`tel:+${PHONE}`} className="flex items-center gap-2 font-montserrat font-bold text-sm"
             style={{ color: scrolled ? "var(--green-dark)" : "white" }}>
             <Icon name="Phone" size={16} />
-            +7 (495) 123-45-67
+            {PHONE_DISPLAY}
           </a>
           <a href="#contacts" className="btn-green px-5 py-2 rounded-full text-sm font-montserrat font-bold text-white">
             Оценить объект
@@ -81,11 +81,23 @@ function Navbar() {
                 {l.label}
               </a>
             ))}
-            <a href="tel:+74951234567"
+            <a href={`tel:+${PHONE}`}
               className="mt-2 flex items-center gap-2 py-3 px-3 font-montserrat font-bold"
               style={{ color: "var(--green-main)" }}>
-              <Icon name="Phone" size={16} />+7 (495) 123-45-67
+              <Icon name="Phone" size={16} />{PHONE_DISPLAY}
             </a>
+            <div className="flex gap-2 mt-1">
+              <a href={WA_LINK} target="_blank" rel="noopener noreferrer"
+                className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-golos font-semibold text-sm text-white"
+                style={{ background: "#25D366" }}>
+                WhatsApp
+              </a>
+              <a href={TG_LINK} target="_blank" rel="noopener noreferrer"
+                className="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl font-golos font-semibold text-sm text-white"
+                style={{ background: "#2AABEE" }}>
+                Telegram
+              </a>
+            </div>
             <a href="#contacts" className="btn-green text-center text-white py-3 rounded-xl font-montserrat font-bold mt-1">
               Оценить объект
             </a>
@@ -129,7 +141,7 @@ function Hero() {
             <a href="#calculator" className="btn-gold px-8 py-4 rounded-full font-montserrat font-bold text-lg text-white">
               Рассчитать выкуп
             </a>
-            <a href="tel:+74951234567"
+            <a href={`tel:+${PHONE}`}
               className="flex items-center gap-2 px-8 py-4 rounded-full font-montserrat font-bold text-lg border-2 border-white text-white hover:bg-white/10 transition-colors">
               <Icon name="Phone" size={20} />
               Позвонить сейчас
@@ -791,13 +803,53 @@ function FAQ() {
   );
 }
 
+const LEAD_URL = "https://functions.poehali.dev/6a37cbfd-6240-4d83-bcd0-ed23b3616438";
+const PHONE = "79684862622";
+const WA_LINK = `https://wa.me/${PHONE}`;
+const TG_LINK = "https://t.me/creditdevil";
+const PHONE_DISPLAY = "+7 (968) 486-26-22";
+
+// ── FloatingButtons ───────────────────────────────────
+function FloatingButtons() {
+  return (
+    <div className="fixed bottom-6 right-4 z-50 flex flex-col gap-3">
+      <a href={TG_LINK} target="_blank" rel="noopener noreferrer"
+        className="w-14 h-14 rounded-full flex items-center justify-center shadow-xl transition-transform hover:scale-110"
+        style={{ background: "#2AABEE" }}
+        title="Написать в Telegram">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
+          <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.17 13.857l-2.965-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.983.702z"/>
+        </svg>
+      </a>
+      <a href={WA_LINK} target="_blank" rel="noopener noreferrer"
+        className="w-14 h-14 rounded-full flex items-center justify-center shadow-xl transition-transform hover:scale-110"
+        style={{ background: "#25D366" }}
+        title="Написать в WhatsApp">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+      </a>
+    </div>
+  );
+}
+
 // ── Contacts ──────────────────────────────────────────
 function Contacts() {
   const [form, setForm] = useState({ name: "", phone: "", obj: "", comment: "" });
   const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    try {
+      await fetch(LEAD_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, source: "форма на сайте" }),
+      });
+    } catch (err) { console.error(err); }
+    setLoading(false);
     setSent(true);
   };
 
@@ -859,8 +911,9 @@ function Contacts() {
                     className="w-full px-4 py-3 rounded-xl font-golos text-sm focus:outline-none resize-none"
                     style={{ background: "var(--warm-bg)", border: "1.5px solid var(--border)", color: "var(--text-dark)" }} />
                 </div>
-                <button type="submit" className="btn-green w-full py-4 rounded-xl font-montserrat font-bold text-lg text-white">
-                  Получить оценку объекта
+                <button type="submit" disabled={loading}
+                  className="btn-green w-full py-4 rounded-xl font-montserrat font-bold text-lg text-white disabled:opacity-70">
+                  {loading ? "Отправляем..." : "Получить оценку объекта"}
                 </button>
                 <p className="text-xs font-golos text-center" style={{ color: "var(--text-muted)" }}>
                   Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
@@ -882,10 +935,10 @@ function Contacts() {
             </div>
             <div className="space-y-4">
               {[
-                { icon: "Phone", label: "Телефон", val: "+7 (495) 123-45-67", link: "tel:+74951234567" },
-                { icon: "MessageCircle", label: "WhatsApp / Telegram", val: "+7 (916) 123-45-67", link: "#" },
-                { icon: "Mail", label: "Email", val: "info@srochno-vykup.ru", link: "mailto:info@srochno-vykup.ru" },
-                { icon: "MapPin", label: "Адрес", val: "Москва, пр. Мира, 45, офис 301", link: "#" },
+                { icon: "Phone", label: "Телефон (звонок)", val: PHONE_DISPLAY, link: `tel:+${PHONE}` },
+                { icon: "MessageCircle", label: "WhatsApp", val: PHONE_DISPLAY, link: WA_LINK },
+                { icon: "Send", label: "Telegram", val: "@creditdevil", link: TG_LINK },
+                { icon: "MapPin", label: "Адрес", val: "Москва — МО — Санкт-Петербург", link: "#" },
               ].map((c) => (
                 <a key={c.label} href={c.link}
                   className="flex items-center gap-4 p-4 rounded-2xl bg-white card-hover group"
@@ -941,7 +994,7 @@ function Footer() {
             },
             {
               title: "Контакты",
-              links: ["+7 (495) 123-45-67", "info@srochno-vykup.ru", "Москва, пр. Мира, 45", "Пн-Вс: 08:00–22:00"],
+              links: [PHONE_DISPLAY, "@creditdevil (Telegram)", "WhatsApp: " + PHONE_DISPLAY, "Пн-Вс: 08:00–22:00"],
             },
           ].map((col) => (
             <div key={col.title}>
@@ -984,6 +1037,7 @@ export default function Index() {
       <FAQ />
       <Contacts />
       <Footer />
+      <FloatingButtons />
     </div>
   );
 }

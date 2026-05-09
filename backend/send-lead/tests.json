@@ -1,0 +1,23 @@
+{
+  "tests": [
+    {
+      "name": "OPTIONS preflight",
+      "method": "OPTIONS",
+      "path": "/",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Send lead (no token)",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "name": "Тест",
+        "phone": "+7 999 000 00 00",
+        "obj": "Квартира 2к, Москва",
+        "comment": "Тестовая заявка",
+        "source": "форма"
+      },
+      "expectedStatus": 200
+    }
+  ]
+}
