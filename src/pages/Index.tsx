@@ -197,10 +197,23 @@ function Hero() {
             <br />деньги сегодня
           </h1>
 
-          <p className="text-lg font-golos leading-relaxed mb-6" style={{ color: "rgba(255,255,255,0.82)" }}>
+          <p className="text-lg font-golos leading-relaxed mb-4" style={{ color: "rgba(255,255,255,0.82)" }}>
             Выкупаем квартиры, дома, коммерцию в Москве и СПб — за 24 часа.<br/>
-            Кредиты под залог для физ. и юр. лиц по всей России.
+            Кредиты для физ. и юр. лиц — работаем напрямую с руководством банков.
           </p>
+
+          {/* Главные отличия */}
+          <div className="p-4 rounded-2xl mb-5 space-y-2"
+            style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.18)" }}>
+            {[
+              "✅ Помогаем даже с плохой кредитной историей",
+              "✅ Работаем напрямую с главами банков — лучшие ставки от 15%",
+              "✅ Выкуп с любым обременением — ипотека, залог, арест",
+              "✅ Каждый случай разбираем индивидуально",
+            ].map((t) => (
+              <p key={t} className="text-sm font-golos text-white/90 leading-snug">{t}</p>
+            ))}
+          </div>
 
           <div className="flex flex-wrap gap-3 mb-6">
             {[
@@ -270,15 +283,15 @@ function Services() {
     {
       icon: "Building2",
       title: "Срочный выкуп квартир",
-      desc: "Выкупаем квартиры в Москве, Московской области и Санкт-Петербурге. Оценка за 2 часа, деньги в день сделки.",
+      desc: "Выкупаем любые квартиры в Москве, МО и СПб. Дисконт 10–25% от рынка — зависит от объекта и срочности. Без скрытых условий.",
       tag: "Хит",
       tagColor: "var(--green-main)",
       geo: "Москва · МО · СПб",
     },
     {
       icon: "Lock",
-      title: "Квартиры под залог",
-      desc: "Выдаём кредиты под залог недвижимости. Работаем по всей России. Без подтверждения дохода.",
+      title: "Кредиты под залог недвижимости",
+      desc: "Выдаём кредиты под залог квартиры или дома. Ставки 15–30% — работаем напрямую с руководством банков. Помогаем даже с плохой КИ.",
       tag: "Популярно",
       tagColor: "var(--gold)",
       geo: "Вся Россия",
@@ -286,7 +299,7 @@ function Services() {
     {
       icon: "Briefcase",
       title: "Кредитование юр. лиц",
-      desc: "Финансирование бизнеса под залог коммерческой и жилой недвижимости. Решение за 1 день.",
+      desc: "Финансирование бизнеса под залог коммерческой и жилой недвижимости. Каждый случай — индивидуально. Решение за 1 день.",
       tag: "",
       tagColor: "",
       geo: "Вся Россия",
@@ -294,26 +307,26 @@ function Services() {
     {
       icon: "User",
       title: "Кредитование физ. лиц",
-      desc: "Потребительские кредиты под залог квартиры или дома. Ставки от 12% годовых, срок до 20 лет.",
+      desc: "Кредиты для физических лиц под залог недвижимости. Ставки от 15%. Плохая КИ, серая зарплата — разберём вашу ситуацию.",
       tag: "",
       tagColor: "",
       geo: "Вся Россия",
     },
     {
       icon: "Home",
-      title: "Выкуп домов и дач",
-      desc: "Срочный выкуп загородной недвижимости — дома, коттеджи, таунхаусы, дачи.",
+      title: "Выкуп домов и коммерции",
+      desc: "Срочный выкуп домов, дач, таунхаусов, офисов и складов. Дисконт 10–25%, деньги в день сделки.",
       tag: "",
       tagColor: "",
-      geo: "Москва · МО",
+      geo: "Москва · МО · СПб",
     },
     {
-      icon: "Store",
-      title: "Коммерческая недвижимость",
-      desc: "Выкупаем офисы, склады, торговые помещения. Быстрая оценка, сделка за 3 дня.",
-      tag: "Новинка",
-      tagColor: "#7c5ab8",
-      geo: "Москва · МО · СПб",
+      icon: "AlertCircle",
+      title: "Сложные ситуации",
+      desc: "Ипотека, арест, залог, долги, плохая КИ, раздел имущества при разводе — помогаем там, где другие отказывают.",
+      tag: "Важно",
+      tagColor: "#c0392b",
+      geo: "Вся Россия",
     },
   ];
 
@@ -377,12 +390,13 @@ function Calculator() {
 
   const [creditAmount, setCreditAmount] = useState(3000000);
   const [creditTerm, setCreditTerm] = useState(60);
-  const [creditRate, setCreditRate] = useState(14);
+  const [creditRate, setCreditRate] = useState(20);
 
-  const typeCoeff = { flat: 0.88, house: 0.82, commercial: 0.78 }[propType];
+  // Дисконт 10–25%: квартира 15%, дом 20%, коммерция 22%
+  const discountPct = { flat: 15, house: 20, commercial: 22 }[propType];
   const marketPrice = area * pricePerM;
-  const buyoutSum = Math.round(marketPrice * typeCoeff);
-  const buyoutPercent = Math.round(typeCoeff * 100);
+  const buyoutSum = Math.round(marketPrice * (1 - discountPct / 100));
+  const buyoutPercent = 100 - discountPct;
 
   const monthlyRate = creditRate / 12 / 100;
   const creditMonthly = creditAmount > 0
@@ -480,17 +494,18 @@ function Calculator() {
                     style={{ background: "var(--gold)", transform: "translate(30%,-30%)" }} />
                   <p className="font-golos text-white/70 mb-1 text-sm">Рыночная стоимость</p>
                   <div className="font-montserrat font-black text-2xl text-white/60 mb-3">{fmt(marketPrice)}</div>
-                  <p className="font-golos text-white/80 mb-1 text-sm">Мы предложим</p>
+                  <p className="font-golos text-white/80 mb-1 text-sm">Наше предложение</p>
                   <div className="font-montserrat font-black text-4xl sm:text-5xl text-white mb-2">{fmt(buyoutSum)}</div>
                   <div className="inline-block px-4 py-1.5 rounded-full font-golos font-bold text-sm mb-6"
                     style={{ background: "rgba(255,255,255,0.15)", color: "#f5c842" }}>
-                    {buyoutPercent}% от рыночной цены
+                    дисконт {discountPct}% от рынка
                   </div>
-                  <div className="space-y-2 text-left mb-6">
+                  <div className="space-y-2 text-left mb-4">
                     {[
                       `Площадь: ${area} м²`,
-                      `Цена м²: ${fmt(pricePerM)}`,
-                      `Коэффициент выкупа: ${buyoutPercent}%`,
+                      `Рыночная цена м²: ${fmt(pricePerM)}`,
+                      `Дисконт за срочность: ${discountPct}%`,
+                      `Вы получите: ${fmt(buyoutSum)}`,
                     ].map((t) => (
                       <div key={t} className="flex items-center gap-2">
                         <Icon name="Check" size={14} className="text-green-300" />
@@ -501,6 +516,9 @@ function Calculator() {
                   <button className="btn-gold w-full py-3.5 rounded-xl font-montserrat font-bold text-white">
                     Получить точную оценку
                   </button>
+                  <p className="text-xs text-white/50 font-golos mt-3">
+                    * Дисконт 10–25% зависит от состояния, района и срочности. Точная сумма — после бесплатного осмотра.
+                  </p>
                 </div>
               </div>
             </div>
@@ -536,10 +554,10 @@ function Calculator() {
                     <label className="font-golos font-semibold" style={{ color: "var(--text-dark)" }}>Процентная ставка</label>
                     <span className="font-montserrat font-bold text-lg" style={{ color: "var(--green-main)" }}>{creditRate}% годовых</span>
                   </div>
-                  <input type="range" min={8} max={30} step={0.5} value={creditRate}
+                  <input type="range" min={15} max={30} step={0.5} value={creditRate}
                     onChange={(e) => setCreditRate(Number(e.target.value))} className="w-full" />
                   <div className="flex justify-between text-xs mt-1" style={{ color: "var(--text-muted)" }}>
-                    <span>8%</span><span>30%</span>
+                    <span>15% (мин.)</span><span>30% (макс.)</span>
                   </div>
                 </div>
               </div>
@@ -567,6 +585,9 @@ function Calculator() {
                   <button className="btn-gold w-full py-3.5 rounded-xl font-montserrat font-bold text-white">
                     Оформить заявку
                   </button>
+                  <p className="text-xs text-white/50 font-golos mt-3">
+                    * Ставка 15–30% подбирается индивидуально. Плохая КИ — не приговор, разберём вашу ситуацию.
+                  </p>
                 </div>
               </div>
             </div>
@@ -770,10 +791,10 @@ function Reviews() {
 // ── About ──────────────────────────────────────────────
 function About() {
   const advantages = [
-    { icon: "Award", title: "12 лет опыта", desc: "На рынке недвижимости с 2012 года, более 1200 сделок" },
-    { icon: "Users", title: "Команда экспертов", desc: "Юристы, оценщики, риэлторы с опытом от 7 лет" },
-    { icon: "Shield", title: "Юридическая чистота", desc: "Все сделки через Росреестр, без рисков для продавца" },
-    { icon: "Zap", title: "Скорость", desc: "От звонка до денег на счёте — от 24 часов" },
+    { icon: "Award", title: "12 лет опыта", desc: "На рынке с 2012 года. Более 1200 закрытых сделок" },
+    { icon: "Landmark", title: "Прямой доступ к банкам", desc: "Работаем с руководством банков — ставки ниже, чем напрямую" },
+    { icon: "Shield", title: "Любая КИ", desc: "Плохая история, просрочки, серая зарплата — рассмотрим всё" },
+    { icon: "Zap", title: "Деньги сегодня", desc: "От звонка до перевода денег — от 24 часов" },
   ];
 
   return (
@@ -783,15 +804,22 @@ function About() {
           <div>
             <div className="section-divider mb-6" />
             <h2 className="font-montserrat font-black text-3xl sm:text-4xl mb-6" style={{ color: "var(--text-dark)" }}>О компании</h2>
-            <p className="font-golos text-lg leading-relaxed mb-6" style={{ color: "var(--text-muted)" }}>
-              Мы — профессиональная компания по срочному выкупу недвижимости. С 2012 года помогаем
-              людям быстро и честно решать имущественные вопросы: выкупаем квартиры, дома,
-              коммерческие объекты в Москве, МО и Санкт-Петербурге.
+            <p className="font-golos text-lg leading-relaxed mb-4" style={{ color: "var(--text-muted)" }}>
+              Мы — команда с прямым доступом к руководству банков и крупных инвесторов.
+              С 2012 года помогаем людям решать самые сложные имущественные вопросы:
+              выкупаем квартиры, дома, коммерцию в Москве, МО и СПб.
             </p>
-            <p className="font-golos leading-relaxed mb-8" style={{ color: "var(--text-muted)" }}>
-              Кредитуем физических и юридических лиц под залог недвижимости по всей России.
-              Работаем прозрачно — без скрытых комиссий и затянутых сроков.
+            <p className="font-golos leading-relaxed mb-5" style={{ color: "var(--text-muted)" }}>
+              Кредитуем физических и юридических лиц по всей России. Наши ставки
+              ниже рынка, потому что мы договариваемся напрямую. Плохая кредитная история,
+              серая зарплата, сложные документы — разбираем каждый случай индивидуально.
             </p>
+            <div className="p-4 rounded-2xl mb-6" style={{ background: "var(--green-light)", border: "1px solid rgba(45,122,69,0.2)" }}>
+              <p className="font-golos text-sm font-semibold" style={{ color: "var(--green-dark)" }}>
+                💼 Важно: мы не агентство. У нас нет шаблонных отказов.
+                Если вам отказали везде — позвоните нам. Найдём решение там, где другие говорят «нет».
+              </p>
+            </div>
             <div className="grid grid-cols-2 gap-4 mb-8">
               {[
                 { num: "1 200+", label: "Сделок" },
