@@ -108,76 +108,150 @@ function Navbar() {
   );
 }
 
+// ── HeroForm — мини-форма прямо в Hero ────────────────
+function HeroForm() {
+  const [service, setService] = useState("");
+  const [phone, setPhone] = useState("");
+  const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!phone) return;
+    setLoading(true);
+    try {
+      await fetch(LEAD_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: "—", phone, obj: service || "не указана", comment: "", source: "Hero-форма" }),
+      });
+    } catch (err) { console.error(err); }
+    setLoading(false);
+    setSent(true);
+  };
+
+  if (sent) return (
+    <div className="p-5 rounded-2xl text-center" style={{ background: "rgba(255,255,255,0.12)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.25)" }}>
+      <div className="text-2xl mb-2">✅</div>
+      <p className="font-montserrat font-bold text-white">Перезвоним за 10 минут!</p>
+      <p className="text-sm text-white/70 font-golos mt-1">Или напишите нам прямо сейчас:</p>
+      <div className="flex gap-2 mt-3">
+        <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="flex-1 py-2.5 rounded-xl text-sm font-golos font-bold text-white text-center" style={{ background: "#25D366" }}>WhatsApp</a>
+        <a href={TG_LINK} target="_blank" rel="noopener noreferrer" className="flex-1 py-2.5 rounded-xl text-sm font-golos font-bold text-white text-center" style={{ background: "#2AABEE" }}>Telegram</a>
+      </div>
+    </div>
+  );
+
+  return (
+    <form onSubmit={handleSubmit} className="p-5 rounded-2xl space-y-3"
+      style={{ background: "rgba(255,255,255,0.12)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.25)" }}>
+      <p className="font-montserrat font-bold text-white text-sm text-center">Получить бесплатную оценку прямо сейчас</p>
+      <div className="grid grid-cols-2 gap-2">
+        {SERVICES_LIST.map((s) => (
+          <button key={s.label} type="button"
+            onClick={() => setService(s.label)}
+            className="text-left px-3 py-2 rounded-xl font-golos text-xs font-medium border transition-all leading-snug"
+            style={{
+              background: service === s.label ? "var(--gold)" : "rgba(255,255,255,0.1)",
+              color: "white",
+              borderColor: service === s.label ? "var(--gold)" : "rgba(255,255,255,0.3)",
+            }}>
+            {s.label}
+          </button>
+        ))}
+      </div>
+      <input type="tel" required placeholder="Ваш телефон *"
+        value={phone} onChange={(e) => setPhone(e.target.value)}
+        className="w-full px-4 py-3 rounded-xl font-golos text-sm focus:outline-none"
+        style={{ background: "rgba(255,255,255,0.15)", border: "1.5px solid rgba(255,255,255,0.4)", color: "white" }} />
+      <button type="submit" disabled={loading}
+        className="btn-gold w-full py-3.5 rounded-xl font-montserrat font-bold text-white">
+        {loading ? "Отправляем..." : "Перезвоните мне → Бесплатно"}
+      </button>
+      <p className="text-xs text-white/50 font-golos text-center">Нажимая, вы соглашаетесь с политикой конфиденциальности</p>
+    </form>
+  );
+}
+
 // ── Hero ──────────────────────────────────────────────
 function Hero() {
   return (
     <section id="home" className="relative min-h-screen flex items-center overflow-hidden hero-pattern">
       <div className="absolute inset-0">
-        <img src={HERO_IMG} alt="Недвижимость" className="w-full h-full object-cover opacity-15" />
+        <img src={HERO_IMG} alt="Срочный выкуп квартир Москва" className="w-full h-full object-cover opacity-15" />
       </div>
       <div className="absolute inset-0 hero-pattern opacity-92" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-28 grid lg:grid-cols-2 gap-12 items-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-24 grid lg:grid-cols-2 gap-10 items-center">
         <div>
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 trust-badge">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-5 trust-badge">
             <span className="pulse-dot w-2.5 h-2.5 rounded-full inline-block" style={{ background: "var(--gold)" }} />
             <span className="text-sm font-golos font-semibold" style={{ color: "var(--gold)" }}>
               Москва · МО · Санкт-Петербург · Вся Россия
             </span>
           </div>
 
-          <h1 className="font-montserrat font-black text-4xl sm:text-5xl lg:text-6xl leading-tight text-white mb-6">
+          <h1 className="font-montserrat font-black text-4xl sm:text-5xl lg:text-6xl leading-tight text-white mb-5">
             Срочный выкуп{" "}
             <span style={{ color: "#f5c842" }}>квартир</span>
-            <br />за 24 часа
+            <br />деньги сегодня
           </h1>
 
-          <p className="text-lg font-golos leading-relaxed mb-8" style={{ color: "rgba(255,255,255,0.82)" }}>
-            Выкупаем квартиры, дома и коммерческую недвижимость. Деньги в день сделки.
-            Кредитование под залог — физ. и юр. лица по всей России.
+          <p className="text-lg font-golos leading-relaxed mb-6" style={{ color: "rgba(255,255,255,0.82)" }}>
+            Выкупаем квартиры, дома, коммерцию в Москве и СПб — за 24 часа.<br/>
+            Кредиты под залог для физ. и юр. лиц по всей России.
           </p>
 
-          <div className="flex flex-wrap gap-4 mb-10">
-            <a href="#calculator" className="btn-gold px-8 py-4 rounded-full font-montserrat font-bold text-lg text-white">
-              Рассчитать выкуп
-            </a>
-            <a href={`tel:+${PHONE}`}
-              className="flex items-center gap-2 px-8 py-4 rounded-full font-montserrat font-bold text-lg border-2 border-white text-white hover:bg-white/10 transition-colors">
-              <Icon name="Phone" size={20} />
-              Позвонить сейчас
-            </a>
-          </div>
-
-          <div className="flex flex-wrap gap-6">
+          <div className="flex flex-wrap gap-3 mb-6">
             {[
               { icon: "Clock", text: "Оценка за 2 часа" },
               { icon: "Banknote", text: "Деньги в день сделки" },
               { icon: "ShieldCheck", text: "Юридическая чистота" },
             ].map((item) => (
               <div key={item.text} className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: "rgba(255,255,255,0.15)" }}>
-                  <Icon name={item.icon as "Clock"} size={16} className="text-white" />
+                <div className="w-7 h-7 rounded-full flex items-center justify-center" style={{ background: "rgba(255,255,255,0.15)" }}>
+                  <Icon name={item.icon as "Clock"} size={14} className="text-white" />
                 </div>
-                <span className="text-white font-golos font-medium">{item.text}</span>
+                <span className="text-white font-golos text-sm font-medium">{item.text}</span>
               </div>
             ))}
           </div>
+
+          {/* Статистика на мобилке */}
+          <div className="grid grid-cols-2 gap-3 lg:hidden mb-6">
+            {[
+              { num: "1 200+", label: "объектов выкуплено" },
+              { num: "98%", label: "довольных клиентов" },
+            ].map((s) => (
+              <div key={s.label} className="p-4 rounded-2xl text-center"
+                style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)" }}>
+                <div className="font-montserrat font-black text-2xl text-white">{s.num}</div>
+                <div className="text-xs font-golos" style={{ color: "rgba(255,255,255,0.7)" }}>{s.label}</div>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex flex-wrap gap-3">
+            <a href={`tel:+${PHONE}`}
+              className="flex items-center gap-2 px-6 py-3.5 rounded-full font-montserrat font-bold text-base border-2 border-white text-white hover:bg-white/10 transition-colors">
+              <Icon name="Phone" size={18} />
+              {PHONE_DISPLAY}
+            </a>
+            <a href={WA_LINK} target="_blank" rel="noopener noreferrer"
+              className="flex items-center gap-2 px-6 py-3.5 rounded-full font-montserrat font-bold text-base text-white"
+              style={{ background: "#25D366" }}>
+              WhatsApp
+            </a>
+          </div>
         </div>
 
-        <div className="hidden lg:grid grid-cols-2 gap-4">
-          {[
-            { num: "1 200+", label: "выкупленных объектов" },
-            { num: "98%", label: "довольных клиентов" },
-            { num: "24 ч", label: "среднее время сделки" },
-            { num: "12 лет", label: "на рынке" },
-          ].map((s) => (
-            <div key={s.label} className="p-6 rounded-2xl text-center card-hover"
-              style={{ background: "rgba(255,255,255,0.1)", backdropFilter: "blur(10px)", border: "1px solid rgba(255,255,255,0.2)" }}>
-              <div className="font-montserrat font-black text-3xl text-white mb-1">{s.num}</div>
-              <div className="text-sm font-golos" style={{ color: "rgba(255,255,255,0.75)" }}>{s.label}</div>
-            </div>
-          ))}
+        {/* Мини-форма на десктопе */}
+        <div className="hidden lg:block">
+          <HeroForm />
         </div>
+
+        {/* Статистика на десктопе */}
+        <div className="lg:hidden" />
       </div>
 
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2">
@@ -587,6 +661,104 @@ function Cases() {
                 <Icon name="Clock" size={14} style={{ color: "var(--gold)" }} />
                 <span className="font-golos text-sm font-bold" style={{ color: "var(--gold)" }}>Время решения: {c.time}</span>
               </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── Reviews ───────────────────────────────────────────
+function Reviews() {
+  const reviews = [
+    {
+      name: "Андрей К.",
+      city: "Москва, Бутово",
+      text: "Продавал квартиру срочно — нужны были деньги на лечение мамы. Позвонил вечером, утром приехали, оценили, к обеду деньги уже были на карте. Честные ребята, без обмана.",
+      service: "Срочный выкуп",
+      rating: 5,
+      sum: "6 400 000 ₽",
+    },
+    {
+      name: "Елена М.",
+      city: "Подмосковье, Химки",
+      text: "Квартира была в ипотеке, платить уже не могла. Думала, банк заберёт на торги. Помогли выкупить, закрыли долг перед банком и ещё 320 тысяч мне осталось. Спасибо огромное!",
+      service: "Ипотечная квартира",
+      rating: 5,
+      sum: "4 100 000 ₽",
+    },
+    {
+      name: "Сергей В.",
+      city: "Санкт-Петербург",
+      text: "Брал кредит под залог квартиры для бизнеса. Банки отказывали из-за серой зарплаты. Здесь одобрили за день, ставка нормальная, без скрытых комиссий.",
+      service: "Кредит физ. лицу",
+      rating: 5,
+      sum: "2 500 000 ₽",
+    },
+    {
+      name: "ООО «Стройсервис»",
+      city: "Москва",
+      text: "Потребовалось срочное финансирование под залог офиса. Рассмотрели заявку за несколько часов, деньги получили на следующий день. Будем работать ещё.",
+      service: "Кредит юр. лицу",
+      rating: 5,
+      sum: "12 000 000 ₽",
+    },
+  ];
+
+  return (
+    <section className="py-20" style={{ background: "var(--warm-bg)" }}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="text-center mb-12">
+          <div className="section-divider mx-auto mb-4" />
+          <h2 className="font-montserrat font-black text-3xl sm:text-4xl mb-3" style={{ color: "var(--text-dark)" }}>
+            Отзывы клиентов
+          </h2>
+          <p className="font-golos text-lg" style={{ color: "var(--text-muted)" }}>
+            127 сделок в 2025 году · Рейтинг 4.9 из 5
+          </p>
+        </div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {reviews.map((r) => (
+            <div key={r.name} className="bg-white p-6 rounded-2xl card-hover flex flex-col"
+              style={{ border: "1px solid var(--border)" }}>
+              {/* Stars */}
+              <div className="flex gap-0.5 mb-3">
+                {Array(r.rating).fill(0).map((_, i) => (
+                  <span key={i} className="text-yellow-400 text-lg">★</span>
+                ))}
+              </div>
+              <p className="font-golos text-sm leading-relaxed mb-4 flex-1" style={{ color: "var(--text-muted)" }}>
+                «{r.text}»
+              </p>
+              <div className="pt-3" style={{ borderTop: "1px solid var(--border)" }}>
+                <div className="font-montserrat font-bold text-sm" style={{ color: "var(--text-dark)" }}>{r.name}</div>
+                <div className="font-golos text-xs" style={{ color: "var(--text-muted)" }}>{r.city}</div>
+                <div className="mt-1 flex items-center justify-between">
+                  <span className="text-xs font-golos px-2 py-0.5 rounded-full"
+                    style={{ background: "var(--green-light)", color: "var(--green-main)" }}>
+                    {r.service}
+                  </span>
+                  <span className="text-xs font-montserrat font-bold" style={{ color: "var(--gold)" }}>{r.sum}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Логотипы доверия */}
+        <div className="mt-10 p-6 rounded-2xl flex flex-wrap items-center justify-center gap-8"
+          style={{ background: "white", border: "1px solid var(--border)" }}>
+          {[
+            { icon: "Shield", text: "Сделки через Росреестр" },
+            { icon: "FileCheck", text: "Договор купли-продажи" },
+            { icon: "Landmark", text: "Работаем с банками РФ" },
+            { icon: "Award", text: "12 лет на рынке" },
+          ].map((t) => (
+            <div key={t.text} className="flex items-center gap-2">
+              <Icon name={t.icon as "Shield"} size={20} style={{ color: "var(--green-main)" }} />
+              <span className="font-golos text-sm font-semibold" style={{ color: "var(--text-dark)" }}>{t.text}</span>
             </div>
           ))}
         </div>
@@ -1215,6 +1387,7 @@ export default function Index() {
       <Services />
       <Calculator />
       <Cases />
+      <Reviews />
       <About />
       <Blog />
       <FAQ />
