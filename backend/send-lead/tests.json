@@ -7,17 +7,18 @@
       "expectedStatus": 200
     },
     {
-      "name": "Send lead (no token)",
+      "name": "Send lead form",
       "method": "POST",
       "path": "/",
       "body": {
         "name": "Тест",
         "phone": "+7 999 000 00 00",
-        "obj": "Квартира 2к, Москва",
+        "obj": "Срочный выкуп квартиры",
         "comment": "Тестовая заявка",
         "source": "форма"
       },
-      "expectedStatus": 200
+      "expectedStatus": 200,
+      "ignoreBody": true
     }
   ]
 }

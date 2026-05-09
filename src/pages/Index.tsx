@@ -833,9 +833,20 @@ function FloatingButtons() {
   );
 }
 
+const SERVICES_LIST = [
+  "Срочный выкуп квартиры",
+  "Срочный выкуп дома / дачи",
+  "Срочный выкуп коммерции",
+  "Кредит под залог недвижимости (физ. лицо)",
+  "Кредит под залог недвижимости (юр. лицо)",
+  "Квартира в залоге — нужна помощь",
+  "Ипотечная квартира — нужна помощь",
+  "Другое — хочу проконсультироваться",
+];
+
 // ── Contacts ──────────────────────────────────────────
 function Contacts() {
-  const [form, setForm] = useState({ name: "", phone: "", obj: "", comment: "" });
+  const [form, setForm] = useState({ name: "", phone: "", service: "", comment: "" });
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -846,7 +857,13 @@ function Contacts() {
       await fetch(LEAD_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, source: "форма на сайте" }),
+        body: JSON.stringify({
+          name: form.name,
+          phone: form.phone,
+          obj: form.service,
+          comment: form.comment,
+          source: "форма на сайте",
+        }),
       });
     } catch (err) { console.error(err); }
     setLoading(false);
@@ -856,17 +873,25 @@ function Contacts() {
   return (
     <section id="contacts" className="py-20" style={{ background: "var(--warm-cream)" }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="text-center mb-16">
+        <div className="text-center mb-10">
           <div className="section-divider mx-auto mb-4" />
-          <h2 className="font-montserrat font-black text-3xl sm:text-4xl mb-4" style={{ color: "var(--text-dark)" }}>
-            Получить оценку объекта
+          <h2 className="font-montserrat font-black text-3xl sm:text-4xl mb-3" style={{ color: "var(--text-dark)" }}>
+            Оставьте заявку
           </h2>
           <p className="font-golos text-lg" style={{ color: "var(--text-muted)" }}>
-            Оставьте заявку — перезвоним в течение 10 минут
+            Перезвоним в течение <strong>10 минут</strong> и бесплатно проконсультируем
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
+        {/* Urgency strip */}
+        <div className="max-w-3xl mx-auto mb-8 px-6 py-4 rounded-2xl flex flex-wrap items-center justify-center gap-6 text-sm font-golos font-semibold"
+          style={{ background: "linear-gradient(135deg, var(--green-dark), var(--green-mid))", color: "white" }}>
+          {["✅ Оценка бесплатно", "⚡ Ответ за 10 минут", "💰 Деньги в день сделки"].map(t => (
+            <span key={t}>{t}</span>
+          ))}
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-12 items-start max-w-5xl mx-auto">
           <div>
             {sent ? (
               <div className="p-10 rounded-3xl text-center"
@@ -876,12 +901,54 @@ function Contacts() {
                   <Icon name="CheckCircle" size={40} className="text-white" />
                 </div>
                 <h3 className="font-montserrat font-black text-2xl text-white mb-3">Заявка принята!</h3>
-                <p className="font-golos text-white/80">Наш эксперт перезвонит вам в течение 10 минут</p>
+                <p className="font-golos text-white/80 mb-6">Наш эксперт перезвонит вам в течение 10 минут</p>
+                <div className="flex gap-3 justify-center">
+                  <a href={WA_LINK} target="_blank" rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-5 py-3 rounded-xl font-golos font-bold text-sm text-white"
+                    style={{ background: "#25D366" }}>
+                    WhatsApp
+                  </a>
+                  <a href={TG_LINK} target="_blank" rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-5 py-3 rounded-xl font-golos font-bold text-sm text-white"
+                    style={{ background: "#2AABEE" }}>
+                    Telegram
+                  </a>
+                </div>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="bg-white p-8 rounded-3xl space-y-5"
-                style={{ border: "1px solid var(--border)" }}>
-                <div className="grid sm:grid-cols-2 gap-5">
+                style={{ border: "2px solid var(--green-light)", boxShadow: "0 8px 40px rgba(26,92,46,0.1)" }}>
+                <div className="text-center mb-2">
+                  <span className="font-montserrat font-black text-lg" style={{ color: "var(--green-dark)" }}>
+                    Получить бесплатную консультацию
+                  </span>
+                </div>
+
+                {/* Выбор услуги */}
+                <div>
+                  <label className="block font-golos font-semibold text-sm mb-3" style={{ color: "var(--text-dark)" }}>
+                    Что вас интересует? *
+                  </label>
+                  <div className="grid grid-cols-1 gap-2">
+                    {SERVICES_LIST.map((s) => (
+                      <button key={s} type="button"
+                        onClick={() => setForm({ ...form, service: s })}
+                        className="text-left px-4 py-3 rounded-xl font-golos text-sm font-medium transition-all border"
+                        style={{
+                          background: form.service === s ? "var(--green-main)" : "var(--warm-bg)",
+                          color: form.service === s ? "white" : "var(--text-dark)",
+                          borderColor: form.service === s ? "var(--green-main)" : "var(--border)",
+                        }}>
+                        {form.service === s ? "✓ " : ""}{s}
+                      </button>
+                    ))}
+                  </div>
+                  {!form.service && (
+                    <p className="text-xs mt-1 font-golos" style={{ color: "var(--text-muted)" }}>Выберите одну из услуг выше</p>
+                  )}
+                </div>
+
+                <div className="grid sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block font-golos font-semibold text-sm mb-2" style={{ color: "var(--text-dark)" }}>Ваше имя *</label>
                     <input type="text" required placeholder="Иван Иванов"
@@ -897,23 +964,18 @@ function Contacts() {
                       style={{ background: "var(--warm-bg)", border: "1.5px solid var(--border)", color: "var(--text-dark)" }} />
                   </div>
                 </div>
-                <div>
-                  <label className="block font-golos font-semibold text-sm mb-2" style={{ color: "var(--text-dark)" }}>Объект недвижимости</label>
-                  <input type="text" placeholder="Квартира 2-комн., Москва, Нагорная"
-                    value={form.obj} onChange={(e) => setForm({ ...form, obj: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl font-golos text-sm focus:outline-none"
-                    style={{ background: "var(--warm-bg)", border: "1.5px solid var(--border)", color: "var(--text-dark)" }} />
-                </div>
+
                 <div>
                   <label className="block font-golos font-semibold text-sm mb-2" style={{ color: "var(--text-dark)" }}>Комментарий</label>
-                  <textarea rows={3} placeholder="Опишите ситуацию: ипотека, залог, срочность..."
+                  <textarea rows={2} placeholder="Кратко опишите ситуацию..."
                     value={form.comment} onChange={(e) => setForm({ ...form, comment: e.target.value })}
                     className="w-full px-4 py-3 rounded-xl font-golos text-sm focus:outline-none resize-none"
                     style={{ background: "var(--warm-bg)", border: "1.5px solid var(--border)", color: "var(--text-dark)" }} />
                 </div>
-                <button type="submit" disabled={loading}
-                  className="btn-green w-full py-4 rounded-xl font-montserrat font-bold text-lg text-white disabled:opacity-70">
-                  {loading ? "Отправляем..." : "Получить оценку объекта"}
+
+                <button type="submit" disabled={loading || !form.service}
+                  className="btn-green w-full py-4 rounded-xl font-montserrat font-bold text-lg text-white disabled:opacity-50">
+                  {loading ? "Отправляем..." : "Получить бесплатную консультацию →"}
                 </button>
                 <p className="text-xs font-golos text-center" style={{ color: "var(--text-muted)" }}>
                   Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
@@ -938,7 +1000,6 @@ function Contacts() {
                 { icon: "Phone", label: "Телефон (звонок)", val: PHONE_DISPLAY, link: `tel:+${PHONE}` },
                 { icon: "MessageCircle", label: "WhatsApp", val: PHONE_DISPLAY, link: WA_LINK },
                 { icon: "Send", label: "Telegram", val: "@creditdevil", link: TG_LINK },
-                { icon: "MapPin", label: "Адрес", val: "Москва — МО — Санкт-Петербург", link: "#" },
               ].map((c) => (
                 <a key={c.label} href={c.link}
                   className="flex items-center gap-4 p-4 rounded-2xl bg-white card-hover group"
@@ -994,7 +1055,7 @@ function Footer() {
             },
             {
               title: "Контакты",
-              links: [PHONE_DISPLAY, "@creditdevil (Telegram)", "WhatsApp: " + PHONE_DISPLAY, "Пн-Вс: 08:00–22:00"],
+              links: [PHONE_DISPLAY, "@creditdevil (Telegram)", "WhatsApp: " + PHONE_DISPLAY, "Работаем 24/7"],
             },
           ].map((col) => (
             <div key={col.title}>
