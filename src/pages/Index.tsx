@@ -805,6 +805,11 @@ function Reviews() {
               <span className="font-golos text-sm font-semibold" style={{ color: "var(--text-dark)" }}>{t.text}</span>
             </div>
           ))}
+          <div className="flex items-center gap-2 px-4 py-2 rounded-xl font-golos text-xs font-bold"
+            style={{ background: "#fff8e1", border: "1.5px solid #FFDD00", color: "#1a1a1a" }}>
+            <span className="text-base">🏦</span>
+            Партнёр Т-Банк · Кэшбэк
+          </div>
         </div>
       </div>
     </section>
