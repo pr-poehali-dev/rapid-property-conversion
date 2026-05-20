@@ -82,25 +82,23 @@ export default function CategoryPage() {
     <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
       <Header />
 
-      <section className="section-padding relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none"
-          style={{ background: 'radial-gradient(ellipse 80% 50% at 50% -20%, rgba(124,58,237,0.1) 0%, transparent 70%)' }} />
+      <section className="section" style={{ background: 'var(--bg-section)' }}>
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             <div>
               <div className="text-5xl mb-6">{cat.emoji}</div>
-              <h1 className="text-3xl md:text-4xl font-black text-white mb-4 leading-tight">
+              <h1 className="text-3xl md:text-4xl font-black mb-4 leading-tight" style={{ color: 'var(--navy)' }}>
                 {cat.h1}
               </h1>
               <p className="text-base mb-8" style={{ color: 'var(--text-muted)', lineHeight: 1.7 }}>
                 {cat.desc}
               </p>
 
-              <div className="card-dark p-6 mb-6">
+              <div className="card p-6 mb-4">
                 <div className="text-xs font-medium mb-3" style={{ color: 'var(--text-muted)' }}>
                   Ориентировочные цены выкупа
                 </div>
-                <div className="text-2xl font-black text-white">
+                <div className="text-2xl font-black" style={{ color: 'var(--navy)' }}>
                   {cat.priceFrom} — {cat.priceTo} ₽
                 </div>
                 <div className="text-xs mt-1" style={{ color: 'var(--text-muted)' }}>
@@ -108,14 +106,14 @@ export default function CategoryPage() {
                 </div>
               </div>
 
-              <div className="card-dark p-6">
+              <div className="card p-6">
                 <div className="text-xs font-medium mb-4" style={{ color: 'var(--text-muted)' }}>
                   Что принимаем
                 </div>
                 <ul className="flex flex-col gap-2">
                   {cat.items.map((item) => (
-                    <li key={item} className="flex items-center gap-2 text-sm text-white">
-                      <Icon name="Check" size={14} style={{ color: 'var(--purple-light)', flexShrink: 0 }} />
+                    <li key={item} className="flex items-center gap-2 text-sm" style={{ color: 'var(--navy-mid)' }}>
+                      <Icon name="Check" size={14} style={{ color: 'var(--orange)', flexShrink: 0 }} />
                       {item}
                     </li>
                   ))}

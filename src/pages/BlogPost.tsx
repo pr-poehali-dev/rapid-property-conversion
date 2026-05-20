@@ -99,35 +99,42 @@ export default function BlogPost() {
     <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
       <Header />
 
-      <article className="section-padding">
+      <article className="section">
         <div className="container mx-auto px-4 max-w-2xl">
-          <Link to="/blog" className="inline-flex items-center gap-1 text-sm mb-8 hover:text-white transition-colors"
-            style={{ color: 'var(--text-muted)' }}>
+          <Link to="/blog" className="inline-flex items-center gap-1 text-sm mb-8 transition-colors"
+            style={{ color: 'var(--text-muted)' }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--navy)')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}>
             <Icon name="ArrowLeft" size={14} />
             Все статьи
           </Link>
 
           <div className="mb-2">
-            <span className="px-2 py-0.5 rounded text-xs font-medium"
-              style={{ background: 'rgba(139,92,246,0.15)', color: 'var(--purple-light)' }}>
+            <span className="badge badge-orange">
               {post.tag}
             </span>
           </div>
-          <h1 className="text-2xl md:text-3xl font-black text-white mb-4 leading-tight">{post.title}</h1>
+          <h1 className="text-2xl md:text-3xl font-black mb-4 leading-tight" style={{ color: 'var(--navy)' }}>
+            {post.title}
+          </h1>
           <div className="flex items-center gap-4 mb-8 text-xs" style={{ color: 'var(--text-muted)' }}>
             <span>{post.date}</span>
-            <span><Icon name="Clock" size={11} className="inline mr-1" />{post.readTime}</span>
+            <span className="flex items-center gap-1">
+              <Icon name="Clock" size={11} />{post.readTime}
+            </span>
           </div>
 
           <div
-            className="prose-dark text-sm leading-relaxed"
-            style={{ color: 'var(--text-muted)' }}
+            className="prose-light text-sm leading-relaxed"
             dangerouslySetInnerHTML={{ __html: body }}
           />
 
           <div className="mt-12 p-6 rounded-2xl text-center"
-            style={{ background: 'rgba(124,58,237,0.08)', border: '1px solid rgba(139,92,246,0.2)' }}>
-            <p className="font-semibold text-white mb-2">Хотите оценить технику?</p>
+            style={{
+              background: 'var(--orange-bg)',
+              border: '1px solid var(--orange-light)',
+            }}>
+            <p className="font-semibold mb-2" style={{ color: 'var(--navy)' }}>Хотите оценить технику?</p>
             <p className="text-xs mb-4" style={{ color: 'var(--text-muted)' }}>
               Перезвоним в течение 15 минут
             </p>

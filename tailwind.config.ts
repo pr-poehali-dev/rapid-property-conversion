@@ -17,8 +17,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        syne: ['Syne', 'sans-serif'],
-        manrope: ['Manrope', 'sans-serif'],
+        inter: ['Inter', 'sans-serif'],
       },
       colors: {
         border: 'hsl(var(--border))',
@@ -57,8 +56,8 @@ export default {
         brand: {
           orange: '#F97316',
           'orange-dark': '#EA6A0A',
-          'orange-light': '#FB923C',
-          steel: '#2A3240',
+          navy: '#1E293B',
+          'navy-mid': '#334155',
         }
       },
       borderRadius: {

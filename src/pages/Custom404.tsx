@@ -8,18 +8,20 @@ export default function Custom404() {
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
       <Header />
-      <div className="section-padding">
+      <div className="section">
         <div className="container mx-auto px-4 text-center max-w-lg">
           <div className="text-7xl mb-4">🖥️</div>
-          <div className="text-8xl font-black mb-4" style={{ color: 'rgba(139,92,246,0.15)', lineHeight: 1 }}>
+          <div className="text-8xl font-black mb-4 leading-none" style={{ color: 'var(--orange-light)' }}>
             404
           </div>
-          <h1 className="text-2xl font-bold text-white mb-3">Эта страница не найдена</h1>
+          <h1 className="text-2xl font-bold mb-3" style={{ color: 'var(--navy)' }}>
+            Эта страница не найдена
+          </h1>
           <p className="text-sm mb-8" style={{ color: 'var(--text-muted)' }}>
             Похоже, страница устарела и ушла на утилизацию. Но мы легко найдёмся — нажмите кнопку ниже.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link to="/" className="btn-primary text-sm">
+            <Link to="/" className="btn-primary text-sm inline-flex items-center justify-center gap-2">
               <Icon name="Home" size={16} />
               На главную
             </Link>

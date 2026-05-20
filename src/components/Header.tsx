@@ -2,17 +2,22 @@ import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Icon from '@/components/ui/icon';
 
+const WA_LINK = 'https://wa.me/79013456008?text=Хочу%20оценить%20технику';
+
 const nav = [
-  { label: 'Физлицам', href: '/dlya-fizlic' },
-  { label: 'Организациям', href: '/dlya-organizaciy' },
-  { label: 'Категории', href: '#', sub: [
-    { label: 'Ноутбуки', href: '/noutbuki' },
-    { label: 'Компьютеры', href: '/kompyutery' },
-    { label: 'Телефоны', href: '/telefony' },
-    { label: 'Мониторы', href: '/monitory' },
-    { label: 'Оргтехника', href: '/orgtehnika' },
-  ]},
+  { label: 'Главная', href: '/' },
+  { label: 'Что принимаем', href: '/#categories' },
+  { label: 'Как работаем', href: '/#how' },
+  { label: 'Юрлицам', href: '/#business' },
   { label: 'Блог', href: '/blog' },
+];
+
+const catItems = [
+  { label: 'Ноутбуки', href: '/noutbuki' },
+  { label: 'Компьютеры', href: '/kompyutery' },
+  { label: 'Телефоны', href: '/telefony' },
+  { label: 'Мониторы', href: '/monitory' },
+  { label: 'Оргтехника', href: '/orgtehnika' },
 ];
 
 export default function Header() {
@@ -20,85 +25,76 @@ export default function Header() {
   const [catOpen, setCatOpen] = useState(false);
   const location = useLocation();
 
+  const isActive = (href: string) => location.pathname === href;
+
   return (
-    <header style={{ background: 'rgba(17,20,24,0.96)', borderBottom: '1px solid var(--steel)', backdropFilter: 'blur(16px)' }}
-      className="sticky top-0 z-50">
-      <div className="container mx-auto flex items-center justify-between h-16 px-4">
+    <header className="sticky top-0 z-50 bg-white shadow-sm" style={{ borderBottom: '1.5px solid var(--border-color)' }}>
+      <div className="container mx-auto px-4 flex items-center justify-between h-16">
 
         {/* Лого */}
-        <Link to="/" className="flex items-center gap-3 flex-shrink-0">
-          <div className="w-8 h-8 rounded flex items-center justify-center"
-            style={{ background: 'var(--orange)', color: '#0a0a0a' }}>
-            <Icon name="Cpu" size={16} />
+        <Link to="/" className="flex items-center gap-2 flex-shrink-0">
+          <div className="w-8 h-8 rounded-lg flex items-center justify-center"
+            style={{ background: 'var(--orange)' }}>
+            <Icon name="Cpu" size={16} className="text-white" />
           </div>
-          <div className="leading-tight">
-            <div className="text-white font-bold text-sm" style={{ fontFamily: 'Syne, sans-serif' }}>
+          <div>
+            <div className="font-black text-sm leading-tight tracking-tight" style={{ color: 'var(--navy)' }}>
               SROCHNO-VYKUP
             </div>
-            <div className="text-xs" style={{ color: 'var(--text-muted)', marginTop: -2 }}>
+            <div className="text-xs leading-none" style={{ color: 'var(--text-muted)' }}>
               скупка техники
             </div>
           </div>
         </Link>
 
-        {/* Навигация desktop */}
-        <nav className="hidden md:flex items-center gap-6">
-          {nav.map((item) =>
-            item.sub ? (
-              <div key={item.label} className="relative">
-                <button
-                  className="flex items-center gap-1 text-sm font-medium transition-colors hover:text-white"
-                  style={{ color: 'var(--text-muted)', fontFamily: 'Manrope, sans-serif' }}
-                  onMouseEnter={() => setCatOpen(true)}
-                  onMouseLeave={() => setCatOpen(false)}
-                >
-                  {item.label}
-                  <Icon name="ChevronDown" size={13} />
-                </button>
-                {catOpen && (
-                  <div
-                    className="absolute top-full left-0 mt-1 py-1.5 rounded-xl shadow-2xl min-w-44"
-                    style={{ background: 'var(--bg-card)', border: '1px solid var(--steel)' }}
-                    onMouseEnter={() => setCatOpen(true)}
-                    onMouseLeave={() => setCatOpen(false)}
-                  >
-                    {item.sub.map((s) => (
-                      <Link key={s.href} to={s.href}
-                        className="block px-4 py-2 text-sm transition-colors hover:text-white"
-                        style={{ color: 'var(--text-muted)', fontFamily: 'Manrope, sans-serif' }}
-                        onClick={() => setCatOpen(false)}>
-                        {s.label}
-                      </Link>
-                    ))}
-                  </div>
-                )}
+        {/* Навигация — desktop */}
+        <nav className="hidden md:flex items-center gap-1">
+          {nav.map(item => (
+            <a key={item.href} href={item.href}
+              className="px-3 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-gray-50"
+              style={{ color: isActive(item.href) ? 'var(--orange)' : 'var(--navy-mid)' }}>
+              {item.label}
+            </a>
+          ))}
+
+          {/* Выпадашка «Категории» */}
+          <div className="relative"
+            onMouseEnter={() => setCatOpen(true)}
+            onMouseLeave={() => setCatOpen(false)}>
+            <button className="px-3 py-2 rounded-lg text-sm font-medium flex items-center gap-1 transition-colors hover:bg-gray-50"
+              style={{ color: 'var(--navy-mid)' }}>
+              Категории <Icon name="ChevronDown" size={13} />
+            </button>
+            {catOpen && (
+              <div className="absolute top-full left-0 mt-1 py-1 rounded-xl shadow-lg min-w-40 bg-white z-50"
+                style={{ border: '1.5px solid var(--border-color)' }}>
+                {catItems.map(c => (
+                  <Link key={c.href} to={c.href}
+                    className="block px-4 py-2 text-sm hover:bg-gray-50 transition-colors"
+                    style={{ color: 'var(--navy-mid)' }}
+                    onClick={() => setCatOpen(false)}>
+                    {c.label}
+                  </Link>
+                ))}
               </div>
-            ) : (
-              <Link key={item.href} to={item.href}
-                className="text-sm font-medium transition-colors hover:text-white"
-                style={{
-                  color: location.pathname === item.href ? 'var(--orange-light)' : 'var(--text-muted)',
-                  fontFamily: 'Manrope, sans-serif'
-                }}>
-                {item.label}
-              </Link>
-            )
-          )}
+            )}
+          </div>
         </nav>
 
         {/* Правая часть */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <a href="tel:+79013456008"
-            className="hidden sm:flex items-center gap-2 text-sm font-semibold text-white">
+            className="hidden lg:flex items-center gap-1.5 text-sm font-semibold"
+            style={{ color: 'var(--navy)' }}>
             <Icon name="Phone" size={14} style={{ color: 'var(--orange)' }} />
             +7 (901) 345-60-08
           </a>
-          <a href="#form" className="btn-primary text-xs py-2 px-3 hidden md:inline-flex">
+          <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="btn-primary text-xs py-2 px-4 hidden md:inline-flex">
             <Icon name="Zap" size={13} />
             Оценить технику
           </a>
-          <button onClick={() => setOpen(!open)} className="md:hidden p-2 rounded"
-            style={{ color: 'var(--text-muted)' }}>
+          <button onClick={() => setOpen(!open)} className="md:hidden p-2 rounded-lg"
+            style={{ color: 'var(--navy-mid)' }}>
             <Icon name={open ? 'X' : 'Menu'} size={22} />
           </button>
         </div>
@@ -106,39 +102,37 @@ export default function Header() {
 
       {/* Мобильное меню */}
       {open && (
-        <div className="md:hidden px-4 pb-4 flex flex-col gap-1"
-          style={{ borderTop: '1px solid var(--steel)' }}>
+        <div className="md:hidden border-t bg-white px-4 pb-4 flex flex-col gap-1"
+          style={{ borderColor: 'var(--border-color)' }}>
           <a href="tel:+79013456008"
-            className="flex items-center gap-2 py-3 text-sm font-semibold text-white">
+            className="flex items-center gap-2 py-3 text-sm font-semibold border-b"
+            style={{ color: 'var(--navy)', borderColor: 'var(--border-color)' }}>
             <Icon name="Phone" size={14} style={{ color: 'var(--orange)' }} />
             +7 (901) 345-60-08
           </a>
-          {nav.map((item) =>
-            item.sub ? (
-              <div key={item.label}>
-                <div className="py-2 text-xs font-bold uppercase tracking-widest" style={{ color: 'var(--text-dim)' }}>
-                  Категории
-                </div>
-                {item.sub.map((s) => (
-                  <Link key={s.href} to={s.href}
-                    className="block py-2 pl-2 text-sm text-white"
-                    onClick={() => setOpen(false)}>
-                    {s.label}
-                  </Link>
-                ))}
-              </div>
-            ) : (
-              <Link key={item.href} to={item.href}
-                className="py-2.5 text-sm font-medium text-white border-b"
-                style={{ borderColor: 'var(--steel)' }}
+          {nav.map(item => (
+            <a key={item.href} href={item.href}
+              className="py-2.5 text-sm font-medium"
+              style={{ color: 'var(--navy-mid)' }}
+              onClick={() => setOpen(false)}>
+              {item.label}
+            </a>
+          ))}
+          <div className="border-t pt-2" style={{ borderColor: 'var(--border-color)' }}>
+            <div className="text-xs font-bold uppercase tracking-wider mb-2" style={{ color: 'var(--text-muted)' }}>Категории</div>
+            {catItems.map(c => (
+              <Link key={c.href} to={c.href}
+                className="block py-2 text-sm pl-2"
+                style={{ color: 'var(--navy-mid)' }}
                 onClick={() => setOpen(false)}>
-                {item.label}
+                {c.label}
               </Link>
-            )
-          )}
-          <a href="#form" className="btn-primary text-sm mt-3 justify-center" onClick={() => setOpen(false)}>
-            <Icon name="Zap" size={15} />
-            Оценить технику
+            ))}
+          </div>
+          <a href={WA_LINK} target="_blank" rel="noopener noreferrer"
+            className="btn-primary mt-3 justify-center" onClick={() => setOpen(false)}>
+            <Icon name="MessageCircle" size={15} />
+            Написать в WhatsApp
           </a>
         </div>
       )}

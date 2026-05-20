@@ -52,25 +52,31 @@ export default function Blog() {
     <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
       <Header />
 
-      <section className="section-padding">
+      {/* Header block */}
+      <section className="section section-alt">
         <div className="container mx-auto px-4">
-          <div className="mb-10">
-            <h1 className="text-3xl md:text-4xl font-black text-white mb-3">Блог</h1>
-            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
-              Полезные статьи о скупке техники, списании и работе с регионами
-            </p>
-          </div>
+          <h1 className="text-3xl md:text-4xl font-black mb-3" style={{ color: 'var(--navy)' }}>Блог</h1>
+          <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+            Полезные статьи о скупке техники, списании и работе с регионами
+          </p>
+        </div>
+      </section>
+
+      {/* Posts grid */}
+      <section className="section">
+        <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {posts.map((post) => (
               <Link key={post.slug} to={`/blog/${post.slug}`}
-                className="card-dark p-6 flex flex-col gap-3 hover:border-purple-500 transition-colors group">
+                className="card p-6 flex flex-col gap-3 group"
+                style={{ textDecoration: 'none' }}>
                 <div className="inline-flex items-center">
-                  <span className="px-2 py-0.5 rounded text-xs font-medium"
-                    style={{ background: 'rgba(139,92,246,0.15)', color: 'var(--purple-light)' }}>
+                  <span className="badge badge-orange">
                     {post.tag}
                   </span>
                 </div>
-                <h2 className="font-semibold text-white text-sm leading-snug group-hover:text-purple-300 transition-colors">
+                <h2 className="font-semibold text-sm leading-snug transition-colors"
+                  style={{ color: 'var(--navy)' }}>
                   {post.title}
                 </h2>
                 <p className="text-xs leading-relaxed flex-1" style={{ color: 'var(--text-muted)' }}>
@@ -78,8 +84,8 @@ export default function Blog() {
                 </p>
                 <div className="flex items-center gap-3 pt-2" style={{ borderTop: '1px solid var(--border-color)' }}>
                   <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{post.date}</span>
-                  <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
-                    <Icon name="Clock" size={11} className="inline mr-1" />{post.readTime}
+                  <span className="text-xs flex items-center gap-1" style={{ color: 'var(--text-muted)' }}>
+                    <Icon name="Clock" size={11} />{post.readTime}
                   </span>
                 </div>
               </Link>

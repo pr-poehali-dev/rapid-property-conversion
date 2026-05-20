@@ -63,42 +63,49 @@ export default function CityPage() {
     <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
       <Header />
 
-      <section className="section-padding relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none"
-          style={{ background: 'radial-gradient(ellipse 80% 50% at 50% -20%, rgba(124,58,237,0.1) 0%, transparent 70%)' }} />
+      <section className="section" style={{ background: 'var(--bg-section)' }}>
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium mb-6"
-                style={{ background: 'rgba(139,92,246,0.1)', border: '1px solid rgba(139,92,246,0.3)', color: 'var(--purple-light)' }}>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium mb-6 badge badge-orange">
                 <Icon name="MapPin" size={12} />
                 {city.name}
               </div>
-              <h1 className="text-3xl md:text-4xl font-black text-white mb-4 leading-tight">
+              <h1 className="text-3xl md:text-4xl font-black mb-4 leading-tight" style={{ color: 'var(--navy)' }}>
                 Скупка компьютерной техники<br />
-                <span className="text-gradient">в {city.nameIn}</span>
+                <span style={{ color: 'var(--orange)' }}>в {city.nameIn}</span>
               </h1>
               <p className="text-base mb-8" style={{ color: 'var(--text-muted)', lineHeight: 1.7 }}>
                 Ноутбуки, ПК, смартфоны, мониторы и оргтехника.
                 Оценка за 5 минут — по фото или на месте.
               </p>
 
-              <div className="card-dark p-5 mb-4 flex gap-4 items-start">
+              <div className="card p-5 mb-6 flex gap-4 items-start">
                 <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
-                  style={{ background: city.isMoscow ? 'rgba(34,197,94,0.15)' : 'rgba(59,130,246,0.15)' }}>
-                  <Icon name={city.isMoscow ? 'Truck' : 'Package'} size={16}
-                    className={city.isMoscow ? 'text-green-400' : 'text-blue-400'} />
+                  style={{
+                    background: city.isMoscow ? 'rgba(34,197,94,0.1)' : 'rgba(59,130,246,0.1)',
+                    border: city.isMoscow ? '1px solid rgba(34,197,94,0.2)' : '1px solid rgba(59,130,246,0.2)',
+                  }}>
+                  <Icon
+                    name={city.isMoscow ? 'Truck' : 'Package'}
+                    size={16}
+                    style={{ color: city.isMoscow ? '#16a34a' : '#2563eb' }}
+                  />
                 </div>
                 <div>
-                  <div className="font-semibold text-white text-sm mb-1">{city.delivery}</div>
+                  <div className="font-semibold text-sm mb-1" style={{ color: 'var(--navy)' }}>{city.delivery}</div>
                   <div className="text-xs" style={{ color: 'var(--text-muted)' }}>{city.deliveryNote}</div>
                 </div>
               </div>
 
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-2">
                 {['Ноутбуки', 'Компьютеры', 'Смартфоны', 'Мониторы', 'Оргтехника'].map((t) => (
                   <span key={t} className="px-3 py-1 rounded-lg text-xs font-medium"
-                    style={{ background: 'var(--bg-card)', border: '1px solid var(--border-color)', color: 'var(--text-muted)' }}>
+                    style={{
+                      background: 'var(--bg-soft)',
+                      border: '1px solid var(--border-color)',
+                      color: 'var(--text-muted)',
+                    }}>
                     {t}
                   </span>
                 ))}

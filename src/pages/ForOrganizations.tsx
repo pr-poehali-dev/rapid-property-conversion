@@ -25,7 +25,7 @@ const steps = [
 
 const geo = [
   { dot: '#22c55e', title: 'Москва и МО', desc: 'Выезд в течение 24 часов после согласования.' },
-  { dot: '#eab308', title: 'Крупные города', desc: 'Выезд при заказе от 50 000 ₽. Согласовываем индивидуально.' },
+  { dot: '#f97316', title: 'Крупные города', desc: 'Выезд при заказе от 50 000 ₽. Согласовываем индивидуально.' },
   { dot: '#3b82f6', title: 'Вся Россия', desc: 'Клиент отправляет технику транспортной компанией, мы оформляем документы удалённо.' },
 ];
 
@@ -35,18 +35,15 @@ export default function ForOrganizations() {
       <Header />
 
       {/* Hero */}
-      <section className="section-padding relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none"
-          style={{ background: 'radial-gradient(ellipse 80% 50% at 50% -20%, rgba(124,58,237,0.12) 0%, transparent 70%)' }} />
+      <section className="section" style={{ background: 'var(--bg-section)' }}>
         <div className="container mx-auto px-4 text-center max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium mb-6"
-            style={{ background: 'rgba(139,92,246,0.1)', border: '1px solid rgba(139,92,246,0.3)', color: 'var(--purple-light)' }}>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium mb-6 badge badge-orange">
             <Icon name="Building2" size={12} />
             Для организаций
           </div>
-          <h1 className="text-3xl md:text-4xl font-black text-white mb-4 leading-tight">
+          <h1 className="text-3xl md:text-4xl font-black mb-4 leading-tight" style={{ color: 'var(--navy)' }}>
             Списание и вывоз компьютерной техники<br />
-            <span className="text-gradient">для организаций по РФ</span>
+            <span style={{ color: 'var(--orange)' }}>для организаций по РФ</span>
           </h1>
           <p className="text-base md:text-lg mb-8" style={{ color: 'var(--text-muted)' }}>
             Оформим документы, заберём технику, освободим склад.<br />
@@ -60,18 +57,18 @@ export default function ForOrganizations() {
       </section>
 
       {/* What we do */}
-      <section className="section-padding">
+      <section className="section">
         <div className="container mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-10">Что мы делаем</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-10" style={{ color: 'var(--navy)' }}>Что мы делаем</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {doList.map((d) => (
-              <div key={d.title} className="card-dark p-6 flex gap-4">
+              <div key={d.title} className="card p-6 flex gap-4">
                 <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
-                  style={{ background: 'rgba(34,197,94,0.15)' }}>
-                  <Icon name="Check" size={13} className="text-green-400" />
+                  style={{ background: 'rgba(34,197,94,0.12)', border: '1px solid rgba(34,197,94,0.25)' }}>
+                  <Icon name="Check" size={13} style={{ color: '#16a34a' }} />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-white mb-1">{d.title}</h3>
+                  <h3 className="font-semibold mb-1" style={{ color: 'var(--navy)' }}>{d.title}</h3>
                   <p className="text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>{d.desc}</p>
                 </div>
               </div>
@@ -81,19 +78,19 @@ export default function ForOrganizations() {
       </section>
 
       {/* What we don't do */}
-      <section className="pb-16">
+      <section className="section section-alt">
         <div className="container mx-auto px-4">
-          <h2 className="text-xl font-bold text-white mb-6">Честно о границах</h2>
+          <h2 className="text-xl font-bold mb-6" style={{ color: 'var(--navy)' }}>Честно о границах</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {dontList.map((d) => (
-              <div key={d.title} className="p-5 rounded-2xl flex gap-4"
-                style={{ background: 'rgba(239,68,68,0.05)', border: '1px solid rgba(239,68,68,0.15)' }}>
+              <div key={d.title} className="card p-5 flex gap-4"
+                style={{ borderColor: 'rgba(239,68,68,0.2)', background: 'rgba(239,68,68,0.03)' }}>
                 <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
-                  style={{ background: 'rgba(239,68,68,0.15)' }}>
-                  <Icon name="X" size={13} className="text-red-400" />
+                  style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)' }}>
+                  <Icon name="X" size={13} style={{ color: '#dc2626' }} />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-white mb-1">{d.title}</h3>
+                  <h3 className="font-semibold mb-1" style={{ color: 'var(--navy)' }}>{d.title}</h3>
                   <p className="text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>{d.desc}</p>
                 </div>
               </div>
@@ -103,14 +100,14 @@ export default function ForOrganizations() {
       </section>
 
       {/* How it works */}
-      <section className="section-padding">
+      <section className="section">
         <div className="container mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-10">Как это работает</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-10" style={{ color: 'var(--navy)' }}>Как это работает</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {steps.map((s) => (
-              <div key={s.num} className="card-dark p-6">
-                <div className="text-3xl font-black mb-3 leading-none" style={{ color: 'rgba(139,92,246,0.25)' }}>{s.num}</div>
-                <h3 className="font-semibold text-white mb-2">{s.title}</h3>
+              <div key={s.num} className="card p-6">
+                <div className="text-3xl font-black mb-3 leading-none" style={{ color: 'var(--orange-light)' }}>{s.num}</div>
+                <h3 className="font-semibold mb-2" style={{ color: 'var(--navy)' }}>{s.title}</h3>
                 <p className="text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>{s.desc}</p>
               </div>
             ))}
@@ -119,15 +116,15 @@ export default function ForOrganizations() {
       </section>
 
       {/* Geo */}
-      <section className="pb-16">
+      <section className="section section-alt">
         <div className="container mx-auto px-4">
-          <h2 className="text-xl font-bold text-white mb-6">Работаем по всей России</h2>
+          <h2 className="text-xl font-bold mb-6" style={{ color: 'var(--navy)' }}>Работаем по всей России</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {geo.map((g) => (
-              <div key={g.title} className="card-dark p-5">
+              <div key={g.title} className="card p-5">
                 <div className="flex items-center gap-2 mb-2">
                   <span className="w-2.5 h-2.5 rounded-full" style={{ background: g.dot }} />
-                  <h3 className="font-semibold text-white text-sm">{g.title}</h3>
+                  <h3 className="font-semibold text-sm" style={{ color: 'var(--navy)' }}>{g.title}</h3>
                 </div>
                 <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{g.desc}</p>
               </div>
@@ -137,7 +134,7 @@ export default function ForOrganizations() {
       </section>
 
       {/* Form */}
-      <section className="section-padding">
+      <section id="form" className="section">
         <div className="container mx-auto px-4 max-w-2xl">
           <LeadForm
             variant="org"
