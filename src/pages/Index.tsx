@@ -5,30 +5,33 @@ import FloatingButtons from '@/components/FloatingButtons';
 import LeadForm from '@/components/LeadForm';
 import Icon from '@/components/ui/icon';
 
+const HERO_IMG = 'https://cdn.poehali.dev/projects/91e8ab1f-16a6-4a0b-bdfb-9dbf57b7ed9c/files/0dcf0f13-d894-4c48-9dff-39c5cb924132.jpg';
+const TECH_IMG = 'https://cdn.poehali.dev/projects/91e8ab1f-16a6-4a0b-bdfb-9dbf57b7ed9c/files/99e421ce-877d-41fa-ac59-069634ece76e.jpg';
+
 const accepts = [
-  { icon: '💻', title: 'Ноутбуки и компьютеры', desc: 'Любые модели, любые состояния. Рабочие — выкупим, нерабочие — заберём бесплатно.' },
-  { icon: '📱', title: 'Смартфоны и планшеты', desc: 'iPhone, Samsung, Xiaomi и другие. Даже с разбитым экраном.' },
-  { icon: '🖥️', title: 'Мониторы и телевизоры', desc: 'LCD, LED, старые ЭЛТ. Заберём всё.' },
-  { icon: '🖨️', title: 'Принтеры и МФУ', desc: 'Рабочие и после ремонта. Разберём на запчасти или в лом.' },
+  { icon: '💻', title: 'Ноутбуки и компьютеры', desc: 'Любые модели, любые состояния. Рабочие — выкупим по честной цене.', href: '/noutbuki' },
+  { icon: '📱', title: 'Смартфоны и планшеты', desc: 'iPhone, Samsung, Xiaomi. Даже с разбитым экраном.', href: '/telefony' },
+  { icon: '🖥️', title: 'Мониторы и телевизоры', desc: 'LCD, LED, старые ЭЛТ. Заберём оптом без вопросов.', href: '/monitory' },
+  { icon: '🖨️', title: 'Принтеры и МФУ', desc: 'Рабочие и нерабочие. Офисный парк — вывезем за один выезд.', href: '/orgtehnika' },
 ];
 
 const steps = [
-  { num: '01', title: 'Оставляете заявку + фото', desc: 'Заполните форму или позвоните. Пришлите фото техники для предварительной оценки.' },
-  { num: '02', title: 'Брат-оценщик связывается', desc: 'Наш эксперт уточнит детали, назовёт ориентировочную цену и способ работы (выезд или отправка).' },
-  { num: '03', title: 'Получаете деньги', desc: 'Москва: приезжаем, забираем, платим сразу. Регионы: отправляете СДЭК, мы проверяем, переводим деньги.' },
+  { title: 'Оставляете заявку + фото', desc: 'Заполните форму или позвоните. Пришлите фото для предварительной оценки.' },
+  { title: 'Оценщик называет цену', desc: 'Свяжемся в течение 15 минут. Назовём точную сумму и способ работы.' },
+  { title: 'Приезжаем и платим', desc: 'Москва: выезд и оплата сразу. Регионы: СДЭК + перевод после получения.' },
 ];
 
 const geo = [
-  { dot: '#22c55e', title: 'Москва и МО', desc: 'Бесплатный выезд в течение 24 часов. Оценка на месте. Оплата сразу.' },
-  { dot: '#eab308', title: 'Крупные города', desc: 'Выезд при заказе от 50 000 ₽. Или отправка техники транспортной компанией.' },
-  { dot: '#3b82f6', title: 'Вся Россия', desc: 'Отправьте технику СДЭК/Почтой. Оценка по фото + оплата после проверки.' },
+  { dot: 'var(--green)', label: 'Москва и МО', desc: 'Бесплатный выезд в течение 24 ч. Оплата наличными или переводом сразу.' },
+  { dot: 'var(--yellow)', label: 'Крупные города', desc: 'Выезд при заказе от 50 000 ₽. Или отправляете сами — СДЭК/ТК.' },
+  { dot: 'var(--blue)', label: 'Вся Россия', desc: 'Оценка по фото. Отправляете СДЭК — переводим деньги после проверки.' },
 ];
 
-const trust = [
-  { icon: 'CalendarCheck', text: 'Работаем с 2024' },
-  { icon: 'Users', text: 'Более 500 клиентов' },
-  { icon: 'Banknote', text: 'Наличные или карта' },
-  { icon: 'MapPin', text: 'Работаем по всей РФ' },
+const stats = [
+  { num: '500+', label: 'клиентов' },
+  { num: '24 ч', label: 'выезд МСК' },
+  { num: '5 мин', label: 'оценка' },
+  { num: '0 ₽', label: 'вывоз МСК' },
 ];
 
 export default function Index() {
@@ -36,137 +39,206 @@ export default function Index() {
     <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
       <Header />
 
-      {/* Hero */}
-      <section className="section-padding relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none"
-          style={{ background: 'radial-gradient(ellipse 80% 50% at 50% -20%, rgba(124,58,237,0.15) 0%, transparent 70%)' }} />
+      {/* ══ HERO ══ */}
+      <section className="relative overflow-hidden" style={{ minHeight: '90vh' }}>
+        <div className="absolute inset-0">
+          <img
+            src={HERO_IMG}
+            alt="Скупка компьютерной техники"
+            className="w-full h-full object-cover"
+            style={{ objectPosition: 'center 30%' }}
+          />
+          <div className="absolute inset-0"
+            style={{ background: 'linear-gradient(105deg, rgba(17,20,24,0.97) 0%, rgba(17,20,24,0.88) 50%, rgba(17,20,24,0.35) 100%)' }} />
+          <div className="absolute bottom-0 left-0 right-0 h-0.5"
+            style={{ background: 'linear-gradient(90deg, var(--orange), transparent)' }} />
+        </div>
+
+        <div className="relative container mx-auto px-4 flex flex-col justify-center" style={{ minHeight: '90vh', paddingTop: 80, paddingBottom: 80 }}>
+          <div className="max-w-2xl">
+            <div className="badge-orange mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-green-400 inline-block animate-pulse" />
+              Принимаем заявки — ответим за 15 минут
+            </div>
+
+            <h1 style={{ fontFamily: 'Syne, sans-serif', fontWeight: 900 }}
+              className="text-4xl sm:text-5xl md:text-6xl text-white mb-5">
+              Утилизация<br />
+              <span className="text-gradient">компьютерной<br />техники</span><br />
+              по всей России
+            </h1>
+
+            <p className="text-base md:text-lg mb-8 max-w-lg" style={{ color: 'var(--text-muted)', lineHeight: 1.75 }}>
+              Ноутбуки, ПК, мониторы, телефоны — заберём, оценим честно и заплатим сразу.
+              <br />Москва — бесплатный выезд. Регионы — отправка СДЭК.
+            </p>
+
+            <div className="flex flex-wrap gap-3 mb-10">
+              <a href="#form" className="btn-primary text-sm">
+                <Icon name="Zap" size={16} />
+                Оценить технику бесплатно
+              </a>
+              <a href="tel:+79013456008" className="btn-ghost text-sm">
+                <Icon name="Phone" size={15} />
+                +7 (901) 345-60-08
+              </a>
+            </div>
+
+            <div className="grid grid-cols-4 gap-2 max-w-md">
+              {stats.map((s) => (
+                <div key={s.label} className="text-center p-3 rounded-lg"
+                  style={{ background: 'rgba(249,115,22,0.06)', border: '1px solid rgba(249,115,22,0.15)' }}>
+                  <div className="stat-num text-xl md:text-2xl">{s.num}</div>
+                  <div className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>{s.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══ ГЕО ══ */}
+      <section className="section-padding section-stripe">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row md:items-end gap-3 mb-8">
+            <div>
+              <p className="badge-orange mb-3">Охват</p>
+              <h2 className="text-2xl md:text-3xl text-white">Работаем по всей России</h2>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {geo.map((g) => (
+              <div key={g.label} className="card-dark p-6 flex gap-4 items-start">
+                <div className="w-3 h-3 rounded-full flex-shrink-0 mt-1.5"
+                  style={{ background: g.dot, boxShadow: `0 0 8px ${g.dot}` }} />
+                <div>
+                  <div className="font-bold text-white text-sm mb-1">{g.label}</div>
+                  <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{g.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══ ЧТО ПРИНИМАЕМ ══ */}
+      <section className="section-padding">
+        <div className="container mx-auto px-4">
+          <div className="mb-10">
+            <p className="badge-orange mb-3">Категории</p>
+            <h2 className="text-2xl md:text-3xl text-white">Что принимаем</h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {accepts.map((a) => (
+              <Link key={a.title} to={a.href}
+                className="card-dark p-6 group transition-all"
+                style={{ borderColor: 'var(--steel)' }}>
+                <div className="text-4xl mb-4">{a.icon}</div>
+                <h3 className="font-bold text-white mb-2 text-sm">{a.title}</h3>
+                <p className="text-xs leading-relaxed mb-4" style={{ color: 'var(--text-muted)' }}>{a.desc}</p>
+                <div className="flex items-center gap-1 text-xs font-semibold" style={{ color: 'var(--orange)' }}>
+                  Подробнее <Icon name="ArrowRight" size={12} />
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══ КАК РАБОТАЕМ ══ */}
+      <section className="section-padding section-stripe">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium mb-6"
-                style={{ background: 'rgba(139,92,246,0.1)', border: '1px solid rgba(139,92,246,0.3)', color: 'var(--purple-light)' }}>
-                <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                Принимаем заявки прямо сейчас
+              <p className="badge-orange mb-4">Процесс</p>
+              <h2 className="text-2xl md:text-3xl text-white mb-8">Три шага — и деньги у вас</h2>
+              <div className="flex flex-col gap-6">
+                {steps.map((s, i) => (
+                  <div key={s.title} className="flex gap-4 items-start">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center font-bold text-sm"
+                      style={{ background: 'var(--orange-glow)', border: '1px solid rgba(249,115,22,0.4)', color: 'var(--orange)', fontFamily: 'Syne, sans-serif' }}>
+                      {String(i + 1).padStart(2, '0')}
+                    </div>
+                    <div className="pt-1.5">
+                      <div className="font-bold text-white text-sm mb-1">{s.title}</div>
+                      <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{s.desc}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <h1 className="text-3xl md:text-5xl font-black text-white leading-tight mb-4">
-                Утилизация компьютерной<br />
-                <span className="text-gradient">техники по всей России</span>
-              </h1>
-              <p className="text-base md:text-lg mb-8" style={{ color: 'var(--text-muted)', lineHeight: 1.7 }}>
-                Поможем со списанием и вывозом ноутбуков, ПК, мониторов, телефонов.<br />
-                Москва — выезд бесплатно. Регионы — отправка СДЭК.
+            </div>
+            <div className="relative rounded-2xl overflow-hidden" style={{ height: 380 }}>
+              <img src={TECH_IMG} alt="Профессиональная оценка техники" className="w-full h-full object-cover" />
+              <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, transparent 50%, rgba(17,20,24,0.85) 100%)' }} />
+              <div className="absolute bottom-5 left-5 right-5">
+                <div className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-bold text-white"
+                  style={{ background: 'var(--orange)' }}>
+                  <Icon name="ShieldCheck" size={15} />
+                  Профессиональная оценка специалистом
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══ ФОРМА ══ */}
+      <section id="form" className="section-padding">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            <div>
+              <p className="badge-orange mb-4">Оценка бесплатно</p>
+              <h2 className="text-2xl md:text-3xl text-white mb-4">
+                Узнайте цену вашей<br />техники за 5 минут
+              </h2>
+              <p className="text-sm mb-8" style={{ color: 'var(--text-muted)', lineHeight: 1.8 }}>
+                Заполните форму — перезвоним в течение 15 минут.<br />
+                Никакого спама и навязывания услуг.
               </p>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <a href="#form" className="btn-primary text-sm">
-                  <Icon name="Zap" size={16} />
-                  Оценить технику
-                </a>
-                <a href="tel:+79013456008" className="btn-outline text-sm flex items-center gap-2 justify-center">
-                  <Icon name="Phone" size={16} />
-                  Позвонить
-                </a>
-              </div>
-              <div className="flex flex-wrap gap-4 mt-8">
-                {trust.map((t) => (
-                  <div key={t.text} className="flex items-center gap-2">
-                    <Icon name={t.icon as 'MapPin'} size={14} style={{ color: 'var(--purple-light)' }} />
-                    <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{t.text}</span>
+              <div className="flex flex-col gap-4">
+                {[
+                  { icon: 'MapPin', text: 'Москва и МО — выедем бесплатно' },
+                  { icon: 'Package', text: 'Регионы — принимаем через СДЭК' },
+                  { icon: 'Banknote', text: 'Оплата наличными или переводом' },
+                  { icon: 'Building2', text: 'Организациям — документы + вывоз' },
+                ].map((item) => (
+                  <div key={item.text} className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded flex items-center justify-center flex-shrink-0"
+                      style={{ background: 'var(--orange-glow)', border: '1px solid rgba(249,115,22,0.3)' }}>
+                      <Icon name={item.icon as 'MapPin'} size={14} style={{ color: 'var(--orange)' }} />
+                    </div>
+                    <span className="text-sm font-medium text-white">{item.text}</span>
                   </div>
                 ))}
               </div>
             </div>
             <div>
-              <LeadForm title="Оцените технику за 1 минуту" subtitle="Перезвоним в течение 15 минут" />
+              <LeadForm />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Geo */}
-      <section className="section-padding">
+      {/* ══ CTA ДЛЯ ОРГАНИЗАЦИЙ ══ */}
+      <section className="pb-16">
         <div className="container mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-4">
-            Работаем по всей России
-          </h2>
-          <p className="text-center text-sm mb-10" style={{ color: 'var(--text-muted)' }}>
-            Условия зависят от вашего города
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {geo.map((g) => (
-              <div key={g.title} className="card-dark p-6">
-                <div className="flex items-center gap-3 mb-3">
-                  <span className="w-3 h-3 rounded-full flex-shrink-0" style={{ background: g.dot, boxShadow: `0 0 8px ${g.dot}` }} />
-                  <h3 className="font-semibold text-white">{g.title}</h3>
-                </div>
-                <p className="text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>{g.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* What we accept */}
-      <section className="section-padding">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">Что принимаем</h2>
-            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>Принимаем любую технику в любом состоянии</p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {accepts.map((a) => (
-              <div key={a.title} className="card-dark p-6 hover:border-purple-500 transition-colors"
-                style={{ borderColor: 'var(--border-color)' }}>
-                <div className="text-3xl mb-4">{a.icon}</div>
-                <h3 className="font-semibold text-white mb-2">{a.title}</h3>
-                <p className="text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>{a.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* How it works */}
-      <section className="section-padding">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">Как это работает</h2>
-            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>Три простых шага</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative">
-            {steps.map((s, i) => (
-              <div key={s.num} className="card-dark p-6 relative">
-                <div className="text-4xl font-black mb-4 leading-none"
-                  style={{ color: 'rgba(139,92,246,0.2)' }}>{s.num}</div>
-                <h3 className="font-semibold text-white mb-2">{s.title}</h3>
-                <p className="text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>{s.desc}</p>
-                {i < steps.length - 1 && (
-                  <div className="hidden md:block absolute top-1/2 -right-3 z-10 text-purple-500">
-                    <Icon name="ChevronRight" size={20} style={{ color: 'var(--purple)' }} />
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA for org */}
-      <section className="section-padding">
-        <div className="container mx-auto px-4">
-          <div className="rounded-2xl p-8 md:p-10 text-center"
-            style={{ background: 'linear-gradient(135deg, rgba(124,58,237,0.15) 0%, rgba(139,92,246,0.05) 100%)', border: '1px solid rgba(139,92,246,0.2)' }}>
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">Вы представляете организацию?</h2>
-            <p className="text-sm mb-6 max-w-xl mx-auto" style={{ color: 'var(--text-muted)' }}>
-              Поможем со списанием по форме ОС-4, предоставим шаблоны документов и вывезем технику по акту приёма-передачи.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link to="/dlya-organizaciy" className="btn-primary text-sm">
-                <Icon name="Building2" size={16} />
-                Подробнее для организаций
+          <div className="rounded-2xl p-8 md:p-10 flex flex-col md:flex-row items-start md:items-center gap-6"
+            style={{ background: 'var(--bg-card)', border: '1px solid var(--steel)' }}>
+            <div className="flex-1">
+              <div className="badge-orange mb-3">Для юрлиц</div>
+              <h2 className="text-xl md:text-2xl text-white mb-2">Вы представляете организацию?</h2>
+              <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+                Поможем со списанием по форме ОС-4, дадим шаблоны документов и вывезем технику по акту приёма-передачи.
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-3 flex-shrink-0">
+              <Link to="/dlya-organizaciy" className="btn-primary text-sm whitespace-nowrap">
+                <Icon name="Building2" size={15} />
+                Для организаций
               </Link>
-              <Link to="/dlya-fizlic" className="btn-outline text-sm flex items-center gap-2 justify-center">
-                <Icon name="User" size={16} />
-                Для физических лиц
+              <Link to="/dlya-fizlic" className="btn-ghost text-sm whitespace-nowrap">
+                <Icon name="User" size={15} />
+                Физлицам
               </Link>
             </div>
           </div>

@@ -4,46 +4,58 @@
 
 @layer base {
   :root {
-    --background: 0 0% 6%;
-    --foreground: 0 0% 100%;
+    /* Tailwind HSL vars */
+    --background: 210 14% 10%;
+    --foreground: 0 0% 96%;
 
-    --card: 0 0% 9%;
-    --card-foreground: 0 0% 100%;
+    --card: 210 14% 12%;
+    --card-foreground: 0 0% 96%;
 
-    --popover: 0 0% 9%;
-    --popover-foreground: 0 0% 100%;
+    --popover: 210 14% 12%;
+    --popover-foreground: 0 0% 96%;
 
-    --primary: 263 70% 63%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 31 95% 54%;
+    --primary-foreground: 0 0% 5%;
 
-    --secondary: 0 0% 12%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 210 14% 16%;
+    --secondary-foreground: 0 0% 96%;
 
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 60%;
+    --muted: 210 10% 18%;
+    --muted-foreground: 210 10% 60%;
 
-    --accent: 263 70% 63%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 31 95% 54%;
+    --accent-foreground: 0 0% 5%;
 
-    --destructive: 0 84.2% 60.2%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 18%;
-    --input: 0 0% 18%;
-    --ring: 263 70% 63%;
+    --border: 210 10% 18%;
+    --input: 210 10% 18%;
+    --ring: 31 95% 54%;
 
-    --radius: 0.75rem;
+    --radius: 0.625rem;
 
-    /* Brand */
-    --bg: #0f0f0f;
-    --bg-card: #161616;
-    --bg-card2: #1a1a1a;
-    --purple: #8b5cf6;
-    --purple-dark: #7c3aed;
-    --purple-light: #a78bfa;
-    --text: #ffffff;
-    --text-muted: #9ca3af;
-    --border-color: #2a2a2a;
+    /* Brand palette — промышленный стиль */
+    --bg: #111418; /* тёмно-стальной */
+    --bg-card: #181c22; /* карточки */
+    --bg-card2: #1d2229; /* формы */
+    --bg-stripe: #13171d; /* полосы секций */
+
+    --orange: #f97316; /* основной акцент */
+    --orange-dark: #ea6a0a;
+    --orange-light: #fb923c;
+    --orange-glow: rgba(249, 115, 22, 0.18);
+
+    --steel: #2a3240; /* границы/разделители */
+    --steel2: #1e2530;
+
+    --text: #f0f2f5;
+    --text-muted: #7a8899;
+    --text-dim: #4a5568;
+
+    --green: #22c55e;
+    --yellow: #eab308;
+    --blue: #3b82f6;
   }
 }
 
@@ -55,94 +67,171 @@
   body {
     background-color: var(--bg);
     color: var(--text);
-    font-family: "Inter", sans-serif;
+    font-family: "Manrope", sans-serif;
     -webkit-font-smoothing: antialiased;
+    line-height: 1.6;
   }
 
   h1,
   h2,
-  h3,
+  h3 {
+    font-family: "Syne", sans-serif;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
   h4,
   h5,
   h6 {
-    font-family: "Inter", sans-serif;
+    font-family: "Manrope", sans-serif;
     font-weight: 700;
   }
 }
 
 @layer utilities {
+  /* Градиентный текст — оранжевый */
   .text-gradient {
-    background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+    background: linear-gradient(120deg, #f97316 0%, #fbbf24 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
+  /* Карточки */
   .card-dark {
     background-color: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
+    border: 1px solid var(--steel);
+    border-radius: 12px;
   }
 
   .card-dark2 {
     background-color: var(--bg-card2);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
+    border: 1px solid var(--steel);
+    border-radius: 12px;
   }
 
+  /* Кнопки */
   .btn-primary {
-    background-color: var(--purple-dark);
-    color: white;
-    font-weight: 600;
-    padding: 14px 28px;
-    border-radius: 12px;
+    background: linear-gradient(135deg, #f97316 0%, #ea6a0a 100%);
+    color: #0a0a0a;
+    font-weight: 700;
+    font-family: "Manrope", sans-serif;
+    padding: 13px 28px;
+    border-radius: 8px;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: 0.01em;
+  }
+
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #fb923c 0%, #f97316 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 28px rgba(249, 115, 22, 0.45);
+  }
+
+  .btn-outline {
+    background-color: transparent;
+    color: var(--orange-light);
+    border: 1.5px solid var(--orange);
+    font-weight: 700;
+    font-family: "Manrope", sans-serif;
+    padding: 12px 28px;
+    border-radius: 8px;
     transition: all 0.2s;
     display: inline-flex;
     align-items: center;
     gap: 8px;
   }
 
-  .btn-primary:hover {
-    background-color: var(--purple);
-    transform: translateY(-1px);
-    box-shadow: 0 8px 24px rgba(124, 58, 237, 0.4);
-  }
-
-  .btn-outline {
-    background-color: transparent;
-    color: var(--purple-light);
-    border: 1px solid var(--purple);
-    font-weight: 600;
-    padding: 14px 28px;
-    border-radius: 12px;
-    transition: all 0.2s;
-  }
-
   .btn-outline:hover {
-    background-color: rgba(139, 92, 246, 0.1);
+    background-color: var(--orange-glow);
+    border-color: var(--orange-light);
   }
 
+  .btn-ghost {
+    background-color: var(--bg-card);
+    color: var(--text);
+    border: 1px solid var(--steel);
+    font-weight: 600;
+    font-family: "Manrope", sans-serif;
+    padding: 12px 24px;
+    border-radius: 8px;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--orange);
+    color: var(--orange-light);
+  }
+
+  /* Секции */
   .section-padding {
     padding: 80px 0;
+  }
+  .section-stripe {
+    background-color: var(--bg-stripe);
   }
 
   @media (max-width: 768px) {
     .section-padding {
-      padding: 48px 0;
+      padding: 52px 0;
     }
   }
 
-  .prose-dark h2 {
-    font-size: 1.2rem;
+  /* Бейдж */
+  .badge-orange {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 0.72rem;
     font-weight: 700;
+    font-family: "Manrope", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    background: rgba(249, 115, 22, 0.12);
+    border: 1px solid rgba(249, 115, 22, 0.35);
+    color: var(--orange-light);
+  }
+
+  /* Разделитель */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--steel);
+    margin: 0;
+  }
+
+  /* Счётчики / статистика */
+  .stat-num {
+    font-family: "Syne", sans-serif;
+    font-weight: 900;
+    font-size: 2.5rem;
+    line-height: 1;
+    color: var(--orange);
+  }
+
+  /* Prose для блога */
+  .prose-dark h2 {
+    font-family: "Syne", sans-serif;
+    font-size: 1.25rem;
+    font-weight: 800;
     color: white;
     margin-top: 2rem;
     margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
   }
 
   .prose-dark p {
     margin-bottom: 1rem;
-    line-height: 1.75;
+    line-height: 1.8;
+    color: var(--text-muted);
   }
 
   .prose-dark strong {
@@ -159,7 +248,7 @@
   }
 
   .prose-dark ul li::before {
-    content: "— ";
-    color: var(--purple-light);
+    content: "→ ";
+    color: var(--orange);
   }
 }

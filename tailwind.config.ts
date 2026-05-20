@@ -17,7 +17,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        inter: ['Inter', 'sans-serif'],
+        syne: ['Syne', 'sans-serif'],
+        manrope: ['Manrope', 'sans-serif'],
       },
       colors: {
         border: 'hsl(var(--border))',
@@ -54,9 +55,10 @@ export default {
           foreground: 'hsl(var(--card-foreground))'
         },
         brand: {
-          purple: '#8B5CF6',
-          'purple-dark': '#7C3AED',
-          'purple-light': '#a78bfa',
+          orange: '#F97316',
+          'orange-dark': '#EA6A0A',
+          'orange-light': '#FB923C',
+          steel: '#2A3240',
         }
       },
       borderRadius: {

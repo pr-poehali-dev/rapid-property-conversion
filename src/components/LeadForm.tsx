@@ -37,9 +37,9 @@ export default function LeadForm({ variant = 'default', title, subtitle }: LeadF
   if (sent) {
     return (
       <div id="form" className="card-dark p-8 text-center">
-        <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"
-          style={{ background: 'rgba(139,92,246,0.15)', border: '1px solid var(--purple)' }}>
-          <Icon name="CheckCircle2" size={28} style={{ color: 'var(--purple-light)' }} />
+        <div className="w-14 h-14 rounded-lg flex items-center justify-center mx-auto mb-4"
+          style={{ background: 'var(--orange-glow)', border: '1px solid rgba(249,115,22,0.4)' }}>
+          <Icon name="CheckCircle2" size={28} style={{ color: 'var(--orange)' }} />
         </div>
         <h3 className="text-xl font-bold text-white mb-2">Заявка отправлена!</h3>
         <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
@@ -219,16 +219,16 @@ export default function LeadForm({ variant = 'default', title, subtitle }: LeadF
 
         {cityWarning && (
           <div className="p-3 rounded-lg text-sm flex items-start gap-2"
-            style={{ background: 'rgba(139,92,246,0.1)', border: '1px solid rgba(139,92,246,0.3)' }}>
-            <Icon name="Info" size={16} style={{ color: 'var(--purple-light)', flexShrink: 0, marginTop: 1 }} />
-            <span style={{ color: 'var(--purple-light)' }}>
-              Работаем с регионами через СДЭК. Отправьте нам фото техники — оценим дистанционно, переведём деньги после получения.
+            style={{ background: 'var(--orange-glow)', border: '1px solid rgba(249,115,22,0.3)' }}>
+            <Icon name="Info" size={16} style={{ color: 'var(--orange)', flexShrink: 0, marginTop: 1 }} />
+            <span style={{ color: 'var(--orange-light)' }}>
+              Работаем с регионами через СДЭК. Пришлите фото — оценим дистанционно, переведём деньги после получения.
             </span>
           </div>
         )}
 
         <button type="submit" disabled={loading}
-          className="btn-primary justify-center text-sm mt-1">
+          className="btn-primary justify-center text-sm mt-2 w-full">
           {loading ? (
             <Icon name="Loader2" size={18} className="animate-spin" />
           ) : (
