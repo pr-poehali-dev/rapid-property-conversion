@@ -4,29 +4,27 @@ import FloatingButtons from '@/components/FloatingButtons';
 import LeadForm from '@/components/LeadForm';
 import Icon from '@/components/ui/icon';
 
+const WA = 'https://wa.me/79013456008?text=Здравствуйте!%20Нужна%20утилизация%20и%20списание%20техники.';
+
 const doList = [
-  { title: 'Консультация по процедуре списания', desc: 'Расскажем, как правильно оформить приказ и акт по форме ОС-4.' },
-  { title: 'Шаблоны документов', desc: 'Предоставим готовые шаблоны приказа и акта списания — ничего скачивать самим не нужно.' },
-  { title: 'Вывоз техники', desc: 'Приедем в удобное время (Москва) или примем отправку транспортной компанией (регионы), оформим акт приёма-передачи.' },
-  { title: 'Конфиденциальность', desc: 'По запросу удалим данные с жёстких дисков перед вывозом.' },
+  { title: 'Консультация по списанию', desc: 'Объясним процедуру, дадим шаблоны приказа и акта ОС-4. Не нужно разбираться самому.' },
+  { title: 'Акт приёма-передачи', desc: 'При каждом вывозе оформляем акт — документ для вашей бухгалтерии.' },
+  { title: 'Выезд и вывоз в Москве', desc: 'При выкупе от 30 000 ₽ — бесплатный выезд и вывоз в Москве и МО.' },
+  { title: 'Удаление данных', desc: 'По запросу — перезаписываем или уничтожаем носители, подтверждаем актом.' },
+  { title: 'Регионы', desc: 'Клиент отправляет транспортной компанией, мы оформляем документы удалённо.' },
 ];
 
 const dontList = [
-  { title: 'Не выдаём официальные акты утилизации', desc: 'Для этого обратитесь к лицензированному оператору. Мы помогаем только со списанием и вывозом.' },
-  { title: 'Не проводим физическую переработку', desc: 'Техника, которую нельзя восстановить, передаётся в приёмки лома.' },
+  { title: 'Не выдаём лицензированные акты утилизации', desc: 'Для экологической отчётности — обратитесь к сертифицированному партнёру. Мы перенаправим.' },
+  { title: 'Не проводим физическую переработку', desc: 'Нерабочая техника передаётся в лом или на разборку.' },
 ];
 
-const steps = [
-  { num: '01', title: 'Оставляете заявку', desc: 'Заполните форму ниже — укажите объём и город.' },
-  { num: '02', title: 'Согласовываем детали', desc: 'Согласуем объём техники, дату и способ передачи.' },
-  { num: '03', title: 'Оформляем документы', desc: 'Приезжаем или принимаем отправку. Оформляем акт приёма-передачи.' },
-  { num: '04', title: 'Склад свободен', desc: 'Техника у вас списана, склад освобождён. Документы на руках.' },
-];
-
-const geo = [
-  { dot: '#22c55e', title: 'Москва и МО', desc: 'Выезд в течение 24 часов после согласования.' },
-  { dot: '#f97316', title: 'Крупные города', desc: 'Выезд при заказе от 50 000 ₽. Согласовываем индивидуально.' },
-  { dot: '#3b82f6', title: 'Вся Россия', desc: 'Клиент отправляет технику транспортной компанией, мы оформляем документы удалённо.' },
+const pains = [
+  { q: '«Кто оформит документы на списание?»', a: 'Мы. Дадим шаблоны приказа и акта ОС-4, оформим акт приёма-передачи. Вам — только подпись руководителя.' },
+  { q: '«Нужна ли лицензия на утилизацию?»', a: 'Для большинства организаций — нет. Если нужен официальный акт — направим к сертифицированным партнёрам.' },
+  { q: '«Как вывезти 100+ единиц техники?»', a: 'Приедем своим транспортом в Москве. Для крупных объёмов — несколько выездов или аренда газели.' },
+  { q: '«Данные с дисков попадут к конкурентам?»', a: 'Нет. Уничтожаем или перезаписываем диски по ГОСТ. Акт об уничтожении — прилагаем.' },
+  { q: '«Это официально и законно?»', a: 'Да. Договор, акт приёма-передачи, оплата на р/с или наличными. Прозрачно для налоговой.' },
 ];
 
 export default function ForOrganizations() {
@@ -34,64 +32,56 @@ export default function ForOrganizations() {
     <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
       <Header />
 
-      {/* Hero */}
-      <section className="section" style={{ background: 'var(--bg-section)' }}>
-        <div className="container mx-auto px-4 text-center max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium mb-6 badge badge-orange">
-            <Icon name="Building2" size={12} />
-            Для организаций
-          </div>
-          <h1 className="text-3xl md:text-4xl font-black mb-4 leading-tight" style={{ color: 'var(--navy)' }}>
-            Списание и вывоз компьютерной техники<br />
-            <span style={{ color: 'var(--orange)' }}>для организаций по РФ</span>
+      <section style={{ background: 'linear-gradient(160deg, #fff 60%, #FFF7ED 100%)' }}>
+        <div className="container mx-auto px-4 py-14 md:py-20 max-w-3xl text-center">
+          <span className="badge badge-orange mb-5 inline-flex">Юридическим лицам</span>
+          <h1 className="text-3xl md:text-4xl font-extrabold mb-4" style={{ color: 'var(--navy)' }}>
+            Списание и вывоз оргтехники<br />
+            <span style={{ color: 'var(--orange)' }}>для организаций по всей России</span>
           </h1>
-          <p className="text-base md:text-lg mb-8" style={{ color: 'var(--text-muted)' }}>
+          <p className="text-base mb-8" style={{ color: 'var(--text-muted)', lineHeight: 1.8 }}>
             Оформим документы, заберём технику, освободим склад.<br />
-            Без лицензий и посредников.
+            Без лицензий и посредников — только результат.
           </p>
-          <a href="#form" className="btn-primary text-sm inline-flex">
-            <Icon name="Zap" size={16} />
-            Заказать вывоз
-          </a>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <a href={WA} target="_blank" rel="noopener noreferrer" className="btn-primary">
+              <Icon name="MessageCircle" size={16} />
+              Написать в WhatsApp
+            </a>
+            <a href="tel:+79013456008" className="btn-ghost">
+              <Icon name="Phone" size={15} />
+              +7 (901) 345-60-08
+            </a>
+          </div>
         </div>
       </section>
 
-      {/* What we do */}
-      <section className="section">
+      <section className="section" style={{ background: 'var(--bg-soft)' }}>
         <div className="container mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-10" style={{ color: 'var(--navy)' }}>Что мы делаем</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {doList.map((d) => (
-              <div key={d.title} className="card p-6 flex gap-4">
+          <h2 className="text-2xl font-extrabold mb-8" style={{ color: 'var(--navy)' }}>Что мы делаем</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+            {doList.map(d => (
+              <div key={d.title} className="card p-5 flex gap-4">
                 <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
-                  style={{ background: 'rgba(34,197,94,0.12)', border: '1px solid rgba(34,197,94,0.25)' }}>
-                  <Icon name="Check" size={13} style={{ color: '#16a34a' }} />
+                  style={{ background: '#F0FDF4', border: '1.5px solid #86EFAC' }}>
+                  <Icon name="Check" size={12} className="text-green-600" />
                 </div>
                 <div>
-                  <h3 className="font-semibold mb-1" style={{ color: 'var(--navy)' }}>{d.title}</h3>
-                  <p className="text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>{d.desc}</p>
+                  <div className="font-bold text-sm mb-1" style={{ color: 'var(--navy)' }}>{d.title}</div>
+                  <p className="text-xs leading-relaxed" style={{ color: 'var(--text-muted)' }}>{d.desc}</p>
                 </div>
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* What we don't do */}
-      <section className="section section-alt">
-        <div className="container mx-auto px-4">
-          <h2 className="text-xl font-bold mb-6" style={{ color: 'var(--navy)' }}>Честно о границах</h2>
+          <h3 className="text-base font-bold mb-4" style={{ color: 'var(--navy)' }}>Честно о границах</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {dontList.map((d) => (
-              <div key={d.title} className="card p-5 flex gap-4"
-                style={{ borderColor: 'rgba(239,68,68,0.2)', background: 'rgba(239,68,68,0.03)' }}>
-                <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
-                  style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)' }}>
-                  <Icon name="X" size={13} style={{ color: '#dc2626' }} />
-                </div>
+            {dontList.map(d => (
+              <div key={d.title} className="p-5 rounded-2xl flex gap-3"
+                style={{ background: '#FEF2F2', border: '1px solid #FECACA' }}>
+                <Icon name="X" size={14} className="text-red-500 flex-shrink-0 mt-0.5" />
                 <div>
-                  <h3 className="font-semibold mb-1" style={{ color: 'var(--navy)' }}>{d.title}</h3>
-                  <p className="text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>{d.desc}</p>
+                  <div className="font-bold text-sm mb-1" style={{ color: '#991B1B' }}>{d.title}</div>
+                  <p className="text-xs leading-relaxed" style={{ color: '#B91C1C' }}>{d.desc}</p>
                 </div>
               </div>
             ))}
@@ -99,48 +89,32 @@ export default function ForOrganizations() {
         </div>
       </section>
 
-      {/* How it works */}
       <section className="section">
         <div className="container mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-bold text-center mb-10" style={{ color: 'var(--navy)' }}>Как это работает</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {steps.map((s) => (
-              <div key={s.num} className="card p-6">
-                <div className="text-3xl font-black mb-3 leading-none" style={{ color: 'var(--orange-light)' }}>{s.num}</div>
-                <h3 className="font-semibold mb-2" style={{ color: 'var(--navy)' }}>{s.title}</h3>
-                <p className="text-sm leading-relaxed" style={{ color: 'var(--text-muted)' }}>{s.desc}</p>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            <div>
+              <h2 className="text-2xl font-extrabold mb-6" style={{ color: 'var(--navy)' }}>
+                Закрываем ваши вопросы
+              </h2>
+              <div className="flex flex-col gap-3">
+                {pains.map(p => (
+                  <div key={p.q} className="card p-4">
+                    <div className="flex gap-3">
+                      <Icon name="HelpCircle" size={16} className="flex-shrink-0 mt-0.5" style={{ color: 'var(--orange)' }} />
+                      <div>
+                        <div className="font-semibold text-sm mb-1" style={{ color: 'var(--navy)' }}>{p.q}</div>
+                        <p className="text-xs leading-relaxed" style={{ color: 'var(--text-muted)' }}>{p.a}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
+            <div>
+              <LeadForm variant="org" title="Заказать вывоз для организации"
+                subtitle="Заполните форму — перезвоним в течение 2 часов" />
+            </div>
           </div>
-        </div>
-      </section>
-
-      {/* Geo */}
-      <section className="section section-alt">
-        <div className="container mx-auto px-4">
-          <h2 className="text-xl font-bold mb-6" style={{ color: 'var(--navy)' }}>Работаем по всей России</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {geo.map((g) => (
-              <div key={g.title} className="card p-5">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="w-2.5 h-2.5 rounded-full" style={{ background: g.dot }} />
-                  <h3 className="font-semibold text-sm" style={{ color: 'var(--navy)' }}>{g.title}</h3>
-                </div>
-                <p className="text-sm" style={{ color: 'var(--text-muted)' }}>{g.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Form */}
-      <section id="form" className="section">
-        <div className="container mx-auto px-4 max-w-2xl">
-          <LeadForm
-            variant="org"
-            title="Заказать вывоз техники для организации"
-            subtitle="Оставьте заявку — согласуем детали в течение 2 часов"
-          />
         </div>
       </section>
 
