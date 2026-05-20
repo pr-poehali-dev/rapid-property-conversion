@@ -35,7 +35,13 @@ export default function LeadForm({ variant = 'default', title, subtitle }: LeadF
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 800));
+    try {
+      await fetch("https://functions.poehali.dev/6a37cbfd-6240-4d83-bcd0-ed23b3616438", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, variant: variant === 'org' ? 'org' : 'fizlic' }),
+      });
+    } catch (_e) { /* silent fail */ }
     setLoading(false);
     setSent(true);
   };
@@ -96,7 +102,7 @@ export default function LeadForm({ variant = 'default', title, subtitle }: LeadF
                   className="w-full px-3 py-2.5 rounded-lg text-sm outline-none" style={inputStyle}>
                   <option value="">Выберите...</option>
                   <option>До 10 шт</option>
-                  <option>10–50 шт</option>
+                  <option>10-50 шт</option>
                   <option>50+ шт</option>
                 </select>
               </div>
@@ -165,7 +171,7 @@ export default function LeadForm({ variant = 'default', title, subtitle }: LeadF
             style={{ background: '#FFF7ED', border: '1px solid var(--orange-light)' }}>
             <Icon name="Info" size={15} style={{ color: 'var(--orange)', flexShrink: 0, marginTop: 1 }} />
             <span style={{ color: 'var(--orange-dark)' }}>
-              Работаем с регионами через СДЭК. Пришлите фото — оценим, вы отправляете, мы платим.
+              Работаем с регионами через СДЭК. Пришлите фото - оценим, вы отправляете, мы платим.
             </span>
           </div>
         )}
@@ -177,7 +183,10 @@ export default function LeadForm({ variant = 'default', title, subtitle }: LeadF
           }
         </button>
         <p className="text-xs text-center" style={{ color: 'var(--text-muted)' }}>
-          Перезвоним за 15 минут. Никакого спама.
+          Перезвоним за 15 минут.{' '}
+          {variant !== 'org' && (
+            <a href="https://t.me/richsmm1" target="_blank" rel="noopener noreferrer" className="font-semibold" style={{ color: 'var(--orange)' }}>Telegram</a>
+          )}
         </p>
       </form>
     </div>

@@ -7,18 +7,22 @@
       "expectedStatus": 200
     },
     {
-      "name": "Send lead form",
+      "name": "Заявка физлица",
       "method": "POST",
       "path": "/",
-      "body": {
-        "name": "Тест",
-        "phone": "+7 999 000 00 00",
-        "obj": "Срочный выкуп квартиры",
-        "comment": "Тестовая заявка",
-        "source": "форма"
-      },
+      "body": "{\"phone\":\"+79001234567\",\"type\":\"Ноутбук\",\"city\":\"Москва\",\"model\":\"MacBook Air\",\"variant\":\"fizlic\"}",
       "expectedStatus": 200,
-      "ignoreBody": true
+      "expectedBody": {"ok": true},
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Заявка юрлица",
+      "method": "POST",
+      "path": "/",
+      "body": "{\"phone\":\"+79001234567\",\"orgName\":\"ООО Тест\",\"contact\":\"Иван\",\"city\":\"Москва\",\"variant\":\"org\"}",
+      "expectedStatus": 200,
+      "expectedBody": {"ok": true},
+      "bodyMatcher": "partial"
     }
   ]
 }

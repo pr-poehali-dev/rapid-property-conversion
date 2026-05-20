@@ -8,7 +8,7 @@ import Icon from '@/components/ui/icon';
 const IMG_SPECIALIST = 'https://cdn.poehali.dev/projects/91e8ab1f-16a6-4a0b-bdfb-9dbf57b7ed9c/files/87d54b10-4c92-4281-ad4a-865aeb28332d.jpg';
 const IMG_STACK       = 'https://cdn.poehali.dev/projects/91e8ab1f-16a6-4a0b-bdfb-9dbf57b7ed9c/files/6dc99bef-be2f-47c6-99a4-7c804191f8c0.jpg';
 const IMG_CASH        = 'https://cdn.poehali.dev/projects/91e8ab1f-16a6-4a0b-bdfb-9dbf57b7ed9c/files/729c28c5-e6ac-413a-a9da-91b6339ee2de.jpg';
-const IMG_SDEK        = 'https://cdn.poehali.dev/projects/91e8ab1f-16a6-4a0b-bdfb-9dbf57b7ed9c/files/ceb4f89e-c201-4fb4-95b5-334d0241ea33.jpg';
+const IMG_SDEK        = 'https://cdn.poehali.dev/projects/91e8ab1f-16a6-4a0b-bdfb-9dbf57b7ed9c/files/a6a1f271-a4b3-4006-a93c-6b34004fd094.jpg';
 
 const WA   = 'https://wa.me/79013456008?text=Здравствуйте!%20Хочу%20оценить%20технику.';
 const TG   = 'https://t.me/richsmm1';
@@ -23,7 +23,13 @@ function LeadForm({ compact = false }: { compact?: boolean }) {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    await new Promise(r => setTimeout(r, 700));
+    try {
+      await fetch("https://functions.poehali.dev/6a37cbfd-6240-4d83-bcd0-ed23b3616438", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, variant: 'fizlic' }),
+      });
+    } catch (_e) { /* silent */ }
     setLoading(false);
     setSent(true);
   };
@@ -48,7 +54,7 @@ function LeadForm({ compact = false }: { compact?: boolean }) {
         <select required value={form.type} onChange={e => setForm({ ...form, type: e.target.value })}
           className="w-full px-4 py-3 rounded-xl text-sm border outline-none font-medium"
           style={{ borderColor: 'var(--border-dark)', color: form.type ? 'var(--navy)' : 'var(--text-muted)', background: '#fff' }}>
-          <option value="">— Тип техники —</option>
+          <option value="">- Тип техники -</option>
           <option>Ноутбук</option>
           <option>ПК / Системный блок</option>
           <option>Смартфон / Планшет</option>
@@ -78,10 +84,10 @@ function LeadForm({ compact = false }: { compact?: boolean }) {
           : <><Icon name="Zap" size={17} />Узнать цену бесплатно</>}
       </button>
       <p className="text-xs text-center" style={{ color: 'var(--text-muted)' }}>
-        Ответим за 15 минут ·{' '}
-        <a href={WA} target="_blank" rel="noopener noreferrer" className="font-semibold" style={{ color: 'var(--orange)' }}>WhatsApp</a>
-        {' или '}
+        Ответим за 15 минут -{'  '}
         <a href={TG} target="_blank" rel="noopener noreferrer" className="font-semibold" style={{ color: 'var(--orange)' }}>Telegram</a>
+        {' / '}
+        <a href={WA} target="_blank" rel="noopener noreferrer" className="font-semibold" style={{ color: 'var(--orange)' }}>WhatsApp</a>
       </p>
     </form>
   );
@@ -89,26 +95,26 @@ function LeadForm({ compact = false }: { compact?: boolean }) {
 
 /* ─── Закрытие болей клиента ─── */
 const PAINS_FIZLIC = [
-  { q: '«Не занизят ли цену при встрече?»', a: 'Называем цену ДО встречи — по фото или видео. Встреча только для проверки и расчёта. Торг исключён.' },
-  { q: '«А вдруг обманут и не заплатят?»', a: 'Работаем с 2024 года. Договор купли-продажи при каждой сделке. Оплата сразу — наличными или переводом.' },
-  { q: '«Далеко везти, неудобно»', a: 'Из Москвы — выезд к вам. Из регионов — отправьте СДЭК, Яндекс или Авито доставкой с наложенным платежом: получите деньги в ПВЗ.' },
-  { q: '«Техника нерабочая, примете?»', a: 'Да. Нерабочую, в дефектах, без зарядки — всё принимаем. Цена зависит от состояния, но отказов нет.' },
+  { q: '«Не занизят ли цену при встрече?»', a: 'Называем цену ДО встречи - по фото или видео. Встреча только для проверки и расчёта. Торг исключён.' },
+  { q: '«А вдруг обманут и не заплатят?»', a: 'Работаем 12 лет. При каждой сделке можем оформить договор купли-продажи. Оплата сразу - наличными, картой, на р/с или криптой.' },
+  { q: '«Далеко везти, неудобно»', a: 'Из Москвы - выезд к вам. Из регионов - отправьте СДЭК, Яндекс или Авито доставкой с наложенным платежом: получите деньги в ПВЗ.' },
+  { q: '«Техника нерабочая, примете?»', a: 'Да. Нерабочую, в дефектах, без зарядки - всё принимаем. Цена зависит от состояния, но отказов нет.' },
   { q: '«Нужно ли куда-то ехать?»', a: 'Необязательно. Оценка по WhatsApp или видеозвонку. Отправка из любого города через СДЭК, Яндекс или Авито.' },
   { q: '«Долго ждать денег?»', a: 'Москва: оплата в момент передачи. Регионы: деньги придут в день, когда мы получим посылку.' },
 ];
 
 const PAINS_YURLICO = [
-  { q: '«Кто оформит документы?»', a: 'Мы. Даём шаблоны приказа и акта ОС-4, оформляем акт приёма-передачи. Вам только подписать.' },
-  { q: '«Нужна ли официальная утилизация?»', a: 'Зависит от ваших требований. Для внутреннего списания — наши документы достаточны. Для лицензированной утилизации — направим к партнёрам.' },
-  { q: '«Много техники — как вывезти?»', a: 'Выезжаем своим транспортом в Москве и МО при объёме от 30 000 ₽. Для малых объёмов или регионов — отправка транспортной компанией.' },
-  { q: '«Данные на дисках не утекут?»', a: 'По запросу — физически уничтожаем диски или перезаписываем по ГОСТ. Подтверждаем актом.' },
+  { q: '«Кто оформит документы?»', a: 'По запросу и необходимости - поможем подготовить нужные документы. Шаблоны приказа и акта ОС-4 предоставим, акт приёма-передачи оформим при каждом вывозе.' },
+  { q: '«Нужна ли официальная утилизация?»', a: 'Зависит от ваших требований. Для внутреннего списания - наши документы достаточны. Для лицензированной утилизации - направим к партнёрам.' },
+  { q: '«Много техники - как вывезти?»', a: 'Организуем вывоз в удобное время. В Москве и МО - договоримся о логистике, при необходимости привлечём грузоперевозчика. Для регионов - отправка любой транспортной компанией.' },
+  { q: '«Данные на дисках не утекут?»', a: 'По запросу - полностью форматируем рабочие ПК и ноутбуки или физически уничтожаем нерабочие носители. Подтверждаем актом.' },
   { q: '«Это законно и официально?»', a: 'Да. Договор, акт приёма-передачи, оплата на счёт или наличными. Всё прозрачно.' },
 ];
 
 const DELIVERY_METHODS = [
-  { icon: 'MapPin', title: 'Приедете к нам', desc: 'Москва и МО. Адрес — по договорённости. Оплата сразу.' },
-  { icon: 'Truck', title: 'Выедем к вам', desc: 'Москва и МО, выкуп от 30 000 ₽. Ниже — обсуждаем индивидуально.' },
-  { icon: 'Package', title: 'СДЭК / Яндекс / Авито', desc: 'Из любого города. Наложенный платёж — деньги при получении.' },
+  { icon: 'MapPin', title: 'Приедете к нам', desc: 'Москва и МО. Адрес - по договорённости. Оплата сразу.' },
+  { icon: 'Truck', title: 'Выедем к вам', desc: 'Москва и МО, выкуп от 30 000 ₽. Ниже - обсуждаем индивидуально.' },
+  { icon: 'Package', title: 'СДЭК / Яндекс / Авито', desc: 'Из любого города. Наложенный платёж - деньги при получении.' },
   { icon: 'Video', title: 'Видеосвязь + доставка', desc: 'Не в России? Оценим онлайн, вы отправите курьером.' },
 ];
 
@@ -122,12 +128,12 @@ const ACCEPTS = [
 ];
 
 const WHY_US = [
-  { icon: 'ShieldCheck', title: 'Цена не меняется', desc: 'Назвали цену — такую и заплатим. Без «уценок при осмотре».' },
+  { icon: 'ShieldCheck', title: 'Цена не меняется', desc: 'Назвали цену - такую и заплатим. Без «уценок при осмотре».' },
   { icon: 'Clock', title: 'Быстро', desc: 'Ответ за 15 минут. Выезд в Москве от 2 часов. Деньги в день сделки.' },
-  { icon: 'FileText', title: 'Документы', desc: 'Договор КП при каждой покупке. Для юрлиц — акт ОС-4 и приёма-передачи.' },
+  { icon: 'FileText', title: 'Документы', desc: 'Для юрлиц по запросу - акт ОС-4 и приёма-передачи. Физлицам - по желанию.' },
   { icon: 'Globe', title: 'Вся Россия', desc: 'Принимаем из любого города через СДЭК, Яндекс доставку, Авито.' },
-  { icon: 'Recycle', title: 'Любое состояние', desc: 'Рабочее, сломанное, без документов, без зарядки — берём всё.' },
-  { icon: 'Banknote', title: 'Наличные или карта', desc: 'Как удобно вам. Перевод на карту любого банка или наличные.' },
+  { icon: 'Recycle', title: 'Любое состояние', desc: 'Рабочее, сломанное, без документов, без зарядки - берём всё.' },
+  { icon: 'Banknote', title: 'Любой способ оплаты', desc: 'Наличные, карта, расчётный счёт или крипта. Как удобно вам.' },
 ];
 
 export default function Index() {
@@ -151,23 +157,23 @@ export default function Index() {
 
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight mb-5"
                 style={{ color: 'var(--navy)', letterSpacing: '-0.02em' }}>
-                Скупка техники<br />
-                <span style={{ color: 'var(--orange)' }}>дорого и честно</span><br />
-                + Утилизация<br />для юрлиц
+                Утилизация и<br />
+                <span style={{ color: 'var(--orange)' }}>скупка техники</span><br />
+                по всей России
               </h1>
 
               <p className="text-base md:text-lg mb-6" style={{ color: 'var(--text-muted)', lineHeight: 1.8 }}>
-                Ноутбуки, ПК, смартфоны, оргтехника — оценим по фото за 5 минут.
-                Москва: выезд или самопривоз. Регионы: СДЭК / Яндекс / Авито с наложенным платежом.
+                Ноутбуки, ПК, смартфоны, оргтехника - оценим по фото и видео за 5 минут.
+                Москва: выезд или самопривоз. Регионы: СДЭК / Яндекс / Авито доставка.
               </p>
 
               <div className="flex flex-col gap-2.5 mb-8">
                 {[
-                  'Оценка по фото/видео — цена не изменится при встрече',
-                  'Оплата сразу — наличными или переводом на карту',
+                  'Оценка по фото/видео - цена не изменится при встрече',
+                  'Оплата сразу - наличными или переводом на карту',
                   'Москва: выезд от 2 часов, выкуп от 30 000 ₽',
                   'Регионы: СДЭК / Яндекс / Авито доставка с наложенным платежом',
-                  'Нерабочая, без документов, «убитая» — принимаем всё',
+                  'Нерабочая, без документов, «убитая» - принимаем всё',
                 ].map(t => (
                   <div key={t} className="flex items-start gap-2.5">
                     <div className="w-5 h-5 rounded-full flex-shrink-0 mt-0.5 flex items-center justify-center"
@@ -180,9 +186,9 @@ export default function Index() {
               </div>
 
               <div className="flex flex-wrap gap-3">
-                <a href={WA} target="_blank" rel="noopener noreferrer" className="btn-primary">
-                  <Icon name="MessageCircle" size={17} />
-                  Написать в WhatsApp
+                <a href={TG} target="_blank" rel="noopener noreferrer" className="btn-primary">
+                  <Icon name="Send" size={17} />
+                  Написать в Telegram
                 </a>
                 <a href={TEL} className="btn-ghost">
                   <Icon name="Phone" size={15} />
@@ -207,7 +213,7 @@ export default function Index() {
               {/* Форма */}
               <div className="card p-6" ref={formRef} id="form">
                 <p className="font-bold text-base mb-4" style={{ color: 'var(--navy)' }}>
-                  Узнать цену вашей техники — бесплатно
+                  Оцени свою технику за 60 секунд
                 </p>
                 <LeadForm />
               </div>
@@ -221,11 +227,11 @@ export default function Index() {
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap justify-center gap-x-10 gap-y-3">
             {[
-              { n: '500+', l: 'сделок' },
-              { n: '2 года', l: 'на рынке' },
+              { n: '2500+', l: 'сделок' },
+              { n: '12 лет', l: 'на рынке' },
               { n: '5 мин', l: 'оценка' },
               { n: '100%', l: 'оплата в день' },
-              { n: '0 ₽', l: 'скрытых комиссий' },
+              { n: '0 ₽', l: 'скрытых платежей' },
             ].map(s => (
               <div key={s.l} className="text-center">
                 <div className="text-xl font-black" style={{ color: 'var(--orange)' }}>{s.n}</div>
@@ -242,10 +248,10 @@ export default function Index() {
           <div className="text-center mb-10">
             <span className="badge badge-orange mb-3 inline-flex">Логистика</span>
             <h2 className="text-2xl md:text-3xl font-extrabold" style={{ color: 'var(--navy)' }}>
-              Работаем по всей России — 4 способа
+              Работаем по всей России - 4 способа
             </h2>
             <p className="text-sm mt-2" style={{ color: 'var(--text-muted)' }}>
-              Выберите удобный вариант — или совместим несколько
+              Выберите удобный вариант - или совместим несколько
             </p>
           </div>
 
@@ -273,14 +279,14 @@ export default function Index() {
             </div>
             <div>
               <h3 className="text-xl font-bold mb-4" style={{ color: 'var(--navy)' }}>
-                Из регионов — проще чем кажется
+                Из регионов - проще чем кажется
               </h3>
               <div className="flex flex-col gap-4">
                 {[
-                  { n: '1', t: 'Пришлите фото в WhatsApp или Telegram', d: 'Оценим за 5–15 минут. Скажем честную цену — она не изменится.' },
-                  { n: '2', t: 'Договариваемся об условиях', d: 'Если цена устраивает — согласовываем способ доставки.' },
-                  { n: '3', t: 'Отправляете СДЭК / Яндекс / Авито', d: 'С наложенным платежом — деньги получаете в ПВЗ или на карту.' },
-                  { n: '4', t: 'Мы проверяем и подтверждаем', d: 'В день получения посылки — перевод. Всё прозрачно.' },
+                  { n: '1', t: 'Пришлите фото в WhatsApp или Telegram', d: 'Оценим за 5-15 минут. Скажем честную цену - она не изменится.' },
+                  { n: '2', t: 'Договариваемся об условиях', d: 'Если цена устраивает - согласовываем способ доставки.' },
+                  { n: '3', t: 'Отправляете СДЭК / Яндекс / Авито', d: 'С наложенным платежом - деньги получаете в ПВЗ или на карту.' },
+                  { n: '4', t: 'Мы проверяем и подтверждаем', d: 'В день получения посылки - перевод. Всё прозрачно.' },
                 ].map(s => (
                   <div key={s.n} className="flex gap-3">
                     <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 text-xs font-black text-white"
@@ -306,7 +312,7 @@ export default function Index() {
               Что мы выкупаем дорого
             </h2>
             <p className="text-sm mt-2" style={{ color: 'var(--text-muted)' }}>
-              Рабочее и нерабочее, с документами и без — оцениваем всё
+              Рабочее и нерабочее, с документами и без - оцениваем всё
             </p>
           </div>
 
@@ -373,16 +379,16 @@ export default function Index() {
                   Сколько стоит ваша техника?
                 </p>
                 <p className="text-sm mb-4" style={{ color: 'var(--text-muted)' }}>
-                  Пришлите фото в WhatsApp — ответим за 5 минут
+                  Напишите в Telegram - ответим за 5 минут
                 </p>
                 <div className="flex flex-col gap-2">
-                  <a href={WA} target="_blank" rel="noopener noreferrer" className="btn-primary justify-center text-sm">
-                    <Icon name="MessageCircle" size={15} />
-                    Написать в WhatsApp
-                  </a>
-                  <a href={TG} target="_blank" rel="noopener noreferrer" className="btn-ghost justify-center text-sm">
+                  <a href={TG} target="_blank" rel="noopener noreferrer" className="btn-primary justify-center text-sm">
                     <Icon name="Send" size={15} />
                     Написать в Telegram
+                  </a>
+                  <a href={WA} target="_blank" rel="noopener noreferrer" className="btn-ghost justify-center text-sm">
+                    <Icon name="MessageCircle" size={15} />
+                    WhatsApp
                   </a>
                 </div>
               </div>
@@ -401,7 +407,7 @@ export default function Index() {
                 Списание и вывоз<br />без головной боли
               </h2>
               <p className="text-sm mb-6" style={{ color: 'var(--text-muted)', lineHeight: 1.8 }}>
-                Помогаем оформить списание техники с баланса, забираем оборудование, освобождаем склад.
+                Помогаем оформить списание техники, забираем оборудование, освобождаем место и склад.
                 Работаем по всей России.
               </p>
 
@@ -410,7 +416,7 @@ export default function Index() {
                   'Шаблоны приказа и акта списания (форма ОС-4)',
                   'Акт приёма-передачи при каждом вывозе',
                   'Выезд в Москве и МО от 30 000 ₽ выкупа',
-                  'Удаление данных с дисков — по запросу, с актом',
+                  'Удаление данных с дисков - по запросу, с актом',
                   'Регионы: транспортная компания + удалённое оформление',
                 ].map(t => (
                   <div key={t} className="flex items-start gap-2.5">
@@ -429,7 +435,7 @@ export default function Index() {
                   <Icon name="Info" size={15} className="flex-shrink-0 mt-0.5 text-red-500" />
                   <p className="text-xs" style={{ color: '#991B1B' }}>
                     Мы не являемся лицензированным утилизатором отходов. Мы выкупаем б/у технику и помогаем с документальным
-                    списанием. Для официальной экологической утилизации с актом — направим к сертифицированным партнёрам.
+                    списанием. Для официальной экологической утилизации с актом - направим к сертифицированным партнёрам.
                   </p>
                 </div>
               </div>
@@ -467,11 +473,10 @@ export default function Index() {
           <div className="text-center mb-10">
             <span className="badge badge-orange mb-3 inline-flex">О нас</span>
             <h2 className="text-2xl md:text-3xl font-extrabold" style={{ color: 'var(--navy)' }}>
-              Почему выбирают нас, а не Авито
+              Почему удобнее работать с нами напрямую
             </h2>
             <p className="text-sm mt-2 max-w-lg mx-auto" style={{ color: 'var(--text-muted)' }}>
-              Продажа через объявления — это торги, показы, мошенники и недели ожидания.
-              Мы — быстро, честно, с документами.
+              Мы сами работаем на Авито и других площадках - но через наш сайт удобнее и безопаснее: официально, без торгов, с гарантией оплаты.
             </p>
           </div>
 
@@ -501,10 +506,10 @@ export default function Index() {
               <tbody>
                 {[
                   ['Скорость', 'Деньги сегодня', 'Неделями'],
-                  ['Торги', 'Нет — цена фиксирована', 'Постоянно'],
+                  ['Торги', 'Нет - цена фиксирована', 'Постоянно'],
                   ['Документы', 'Договор при каждой сделке', 'Нет'],
                   ['Риски', 'Минимальные', 'Мошенники, показы, фейки'],
-                  ['Удобство', 'Привезли — получили деньги', 'Объявления, звонки, встречи'],
+                  ['Удобство', 'Привезли - получили деньги', 'Объявления, звонки, встречи'],
                 ].map(([c, ours, theirs]) => (
                   <tr key={c} style={{ borderTop: '1px solid var(--border-color)' }}>
                     <td className="py-2.5 font-medium text-xs" style={{ color: 'var(--navy-mid)' }}>{c}</td>
@@ -518,6 +523,42 @@ export default function Index() {
         </div>
       </section>
 
+      {/* ══ АВИТО ДОВЕРИЕ ══ */}
+      <section className="section" style={{ background: 'var(--bg-soft)' }}>
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center max-w-4xl mx-auto">
+            <div>
+              <span className="badge badge-orange mb-4 inline-flex">Проверено временем</span>
+              <h2 className="text-2xl font-extrabold mb-3" style={{ color: 'var(--navy)' }}>659 отзывов на Авито - рейтинг 4,8 ⭐</h2>
+              <p className="text-sm mb-4" style={{ color: 'var(--text-muted)', lineHeight: 1.8 }}>
+                Работаем на Авито с сентября 2017 года - 99+ завершённых сделок, 659 отзывов и рейтинг 4,8.
+                Через наш сайт - быстрее и официальнее, без комиссий площадки.
+              </p>
+              <div className="flex flex-col gap-2 mb-5">
+                {['659 отзывов, рейтинг 4,8 из 5', 'На Авито с сентября 2017', '3 147 подписчиков', '99+ завершённых сделок'].map(t => (
+                  <div key={t} className="flex items-center gap-2">
+                    <Icon name="Star" size={14} style={{ color: 'var(--orange)', flexShrink: 0 }} />
+                    <span className="text-sm" style={{ color: 'var(--navy-mid)' }}>{t}</span>
+                  </div>
+                ))}
+              </div>
+              <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                Хотите проверить? Найдите нас на Авито: "Ноутбуки с Видеообзором" или напишите нам напрямую - это быстрее.
+              </p>
+            </div>
+            <div className="card p-4 max-w-xs mx-auto md:ml-auto">
+              <img
+                src="https://cdn.poehali.dev/projects/91e8ab1f-16a6-4a0b-bdfb-9dbf57b7ed9c/bucket/17fe89d4-db78-45ad-9439-f400d132049a.jpg"
+                alt="Наш профиль на Авито - 659 отзывов"
+                className="w-full rounded-xl"
+                style={{ maxWidth: 280 }}
+              />
+              <p className="text-xs text-center mt-2" style={{ color: 'var(--text-muted)' }}>Наш профиль: "Ноутбуки с Видеообзором"</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ══ ФОРМА-CTA ══ */}
       <section id="contact" className="section">
         <div className="container mx-auto px-4">
@@ -527,7 +568,7 @@ export default function Index() {
                 Готовы оценить<br />вашу технику?
               </h2>
               <p className="text-base mb-6" style={{ color: 'var(--text-muted)', lineHeight: 1.8 }}>
-                Заполните форму — перезвоним за 15 минут.
+                Заполните форму - перезвоним за 15 минут.
                 Или напишите напрямую в мессенджер:
               </p>
               <div className="flex flex-col gap-3">
@@ -540,7 +581,7 @@ export default function Index() {
                   </div>
                   <div>
                     <div className="font-bold text-sm" style={{ color: 'var(--navy)' }}>WhatsApp</div>
-                    <div className="text-xs" style={{ color: 'var(--text-muted)' }}>Пришлите фото — оценим за 5 минут</div>
+                    <div className="text-xs" style={{ color: 'var(--text-muted)' }}>Пришлите фото - оценим за 5 минут</div>
                   </div>
                 </a>
                 <a href={TG} target="_blank" rel="noopener noreferrer"
@@ -552,7 +593,7 @@ export default function Index() {
                   </div>
                   <div>
                     <div className="font-bold text-sm" style={{ color: 'var(--navy)' }}>Telegram @richsmm1</div>
-                    <div className="text-xs" style={{ color: 'var(--text-muted)' }}>Видеозвонок для оценки — welcome</div>
+                    <div className="text-xs" style={{ color: 'var(--text-muted)' }}>Видеозвонок для оценки - welcome</div>
                   </div>
                 </a>
                 <a href={TEL}
@@ -564,7 +605,7 @@ export default function Index() {
                   </div>
                   <div>
                     <div className="font-bold text-sm" style={{ color: 'var(--navy)' }}>+7 (901) 345-60-08</div>
-                    <div className="text-xs" style={{ color: 'var(--text-muted)' }}>Пн–Вс, 9:00–21:00</div>
+                    <div className="text-xs" style={{ color: 'var(--text-muted)' }}>Пн-Вс, 9:00-21:00</div>
                   </div>
                 </a>
               </div>
