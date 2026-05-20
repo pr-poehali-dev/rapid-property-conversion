@@ -1,12 +1,24 @@
 User-agent: *
 Allow: /
-Sitemap: https://srochno-vykup.ru/sitemap.xml
+Disallow: /api/
+Disallow: /*.json$
+Crawl-delay: 1
 
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 0
 
 User-agent: Yandex
 Allow: /
+Crawl-delay: 1
+Clean-param: utm_source&utm_medium&utm_campaign&utm_term&utm_content&gclid&yclid&fbclid
 
-User-agent: Bingbot
+User-agent: YandexImages
 Allow: /
+
+User-agent: bingbot
+Allow: /
+Crawl-delay: 1
+
+Sitemap: https://srochno-vykup.ru/sitemap.xml
+Host: https://srochno-vykup.ru

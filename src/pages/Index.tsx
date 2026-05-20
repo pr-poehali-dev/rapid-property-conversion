@@ -3,12 +3,14 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import FloatingButtons from '@/components/FloatingButtons';
 import Icon from '@/components/ui/icon';
+import { StickyCtaBar, ExitIntentPopup, LiveActivityTicker, UrgencyBanner, ReviewsSection } from '@/components/ConversionWidgets';
 
 /* ─── Фото ─── */
 const IMG_SPECIALIST = 'https://cdn.poehali.dev/projects/91e8ab1f-16a6-4a0b-bdfb-9dbf57b7ed9c/files/87d54b10-4c92-4281-ad4a-865aeb28332d.jpg';
-const IMG_STACK       = 'https://cdn.poehali.dev/projects/91e8ab1f-16a6-4a0b-bdfb-9dbf57b7ed9c/files/6dc99bef-be2f-47c6-99a4-7c804191f8c0.jpg';
-const IMG_CASH        = 'https://cdn.poehali.dev/projects/91e8ab1f-16a6-4a0b-bdfb-9dbf57b7ed9c/files/729c28c5-e6ac-413a-a9da-91b6339ee2de.jpg';
+const IMG_STACK       = 'https://cdn.poehali.dev/projects/91e8ab1f-16a6-4a0b-bdfb-9dbf57b7ed9c/files/53041003-ad92-479c-ac61-a2798e1d77ba.jpg';
+const IMG_CASH        = 'https://cdn.poehali.dev/projects/91e8ab1f-16a6-4a0b-bdfb-9dbf57b7ed9c/files/35b036f7-e51a-4b4b-9b65-c49c978ed82b.jpg';
 const IMG_SDEK        = 'https://cdn.poehali.dev/projects/91e8ab1f-16a6-4a0b-bdfb-9dbf57b7ed9c/files/a6a1f271-a4b3-4006-a93c-6b34004fd094.jpg';
+const IMG_HAPPY       = 'https://cdn.poehali.dev/projects/91e8ab1f-16a6-4a0b-bdfb-9dbf57b7ed9c/files/c1f82ee4-36f9-41f5-b073-9c31c041fd3a.jpg';
 
 const WA   = 'https://wa.me/79013456008?text=Здравствуйте!%20Хочу%20оценить%20технику.';
 const TG   = 'https://t.me/richsmm1';
@@ -141,6 +143,7 @@ export default function Index() {
 
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
+      <UrgencyBanner />
       <Header />
 
       {/* ══ HERO ══ */}
@@ -306,7 +309,7 @@ export default function Index() {
       {/* ══ ЧТО ПРИНИМАЕМ ══ */}
       <section id="categories" className="section">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-10">
+          <div className="text-center mb-8">
             <span className="badge badge-orange mb-3 inline-flex">Принимаем</span>
             <h2 className="text-2xl md:text-3xl font-extrabold" style={{ color: 'var(--navy)' }}>
               Что мы выкупаем дорого
@@ -316,9 +319,19 @@ export default function Index() {
             </p>
           </div>
 
-          {/* Фото стопки техники */}
-          <div className="rounded-2xl overflow-hidden mb-8" style={{ maxHeight: 320 }}>
-            <img src={IMG_STACK} alt="Техника на выкуп" className="w-full h-full object-cover object-center" />
+          {/* Фото на весь слайд */}
+          <div className="relative rounded-2xl overflow-hidden mb-8" style={{ minHeight: 400, maxHeight: 520 }}>
+            <img src={IMG_STACK} alt="Большой ассортимент техники на выкуп" className="w-full h-full object-cover object-center" style={{ minHeight: 400 }} />
+            <div className="absolute inset-0 flex flex-col justify-end p-8"
+              style={{ background: 'linear-gradient(to top, rgba(30,41,59,0.85) 0%, transparent 60%)' }}>
+              <h3 className="text-2xl md:text-3xl font-black text-white mb-2">Любая техника - любое состояние</h3>
+              <p className="text-sm text-white opacity-80 mb-4 max-w-lg">Рабочие, нерабочие, без зарядок, с разбитыми экранами, офисные парки - оцениваем всё за 5 минут</p>
+              <a href={TG} target="_blank" rel="noopener noreferrer"
+                className="btn-primary inline-flex w-fit text-sm">
+                <Icon name="Zap" size={15} />
+                Оценить прямо сейчас
+              </a>
+            </div>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
@@ -371,8 +384,16 @@ export default function Index() {
 
             {/* Фото и CTA */}
             <div className="flex flex-col gap-5">
-              <div className="rounded-2xl overflow-hidden" style={{ aspectRatio: '4/3' }}>
-                <img src={IMG_CASH} alt="Оплата при покупке техники" className="w-full h-full object-cover" />
+              <div className="relative rounded-2xl overflow-hidden" style={{ aspectRatio: '4/3' }}>
+                <img src={IMG_HAPPY} alt="Клиент доволен выкупом техники" className="w-full h-full object-cover" />
+                <div className="absolute bottom-4 left-4 right-4">
+                  <div className="bg-white rounded-xl px-4 py-3 flex items-center gap-3 shadow-lg">
+                    <div className="flex flex-shrink-0">
+                      {[1,2,3,4,5].map(s=><Icon key={s} name="Star" size={14} style={{color:'#F59E0B'}}/>)}
+                    </div>
+                    <p className="text-xs font-medium" style={{ color: 'var(--navy)' }}>"Быстро и честно. Оценили за 5 минут, деньги сразу"</p>
+                  </div>
+                </div>
               </div>
               <div className="card p-6" style={{ background: 'var(--orange-bg)', borderColor: 'var(--orange-light)' }}>
                 <p className="font-bold text-base mb-1" style={{ color: 'var(--navy)' }}>
@@ -618,8 +639,13 @@ export default function Index() {
         </div>
       </section>
 
+      <ReviewsSection />
+
       <Footer />
       <FloatingButtons />
+      <StickyCtaBar />
+      <ExitIntentPopup />
+      <LiveActivityTicker />
     </div>
   );
 }
