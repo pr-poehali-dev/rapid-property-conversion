@@ -50,10 +50,10 @@ function LeadForm({ compact = false }: { compact?: boolean }) {
   );
 
   return (
-    <form onSubmit={submit} className="flex flex-col gap-3">
+    <form onSubmit={submit} aria-label="Форма заявки на оценку техники" className="flex flex-col gap-3">
       <input type="text" name="_hp" className="hidden" tabIndex={-1} autoComplete="off" />
       <div className={`grid gap-3 ${compact ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2'}`}>
-        <select required value={form.type} onChange={e => setForm({ ...form, type: e.target.value })}
+        <select required aria-label="Тип техники" value={form.type} onChange={e => setForm({ ...form, type: e.target.value })}
           className="w-full px-4 py-3 rounded-xl text-sm border outline-none font-medium"
           style={{ borderColor: 'var(--border-dark)', color: form.type ? 'var(--navy)' : 'var(--text-muted)', background: '#fff' }}>
           <option value="">- Тип техники -</option>
@@ -65,17 +65,17 @@ function LeadForm({ compact = false }: { compact?: boolean }) {
           <option>Несколько позиций</option>
           <option>Другое</option>
         </select>
-        <input required type="text" placeholder="Ваш город" value={form.city}
+        <input required aria-label="Ваш город" type="text" placeholder="Ваш город" value={form.city}
           onChange={e => setForm({ ...form, city: e.target.value })}
           className="w-full px-4 py-3 rounded-xl text-sm border outline-none"
           style={{ borderColor: 'var(--border-dark)', color: 'var(--navy)', background: '#fff' }} />
       </div>
-      <input required type="tel" placeholder="+7 (___) ___-__-__" value={form.phone}
+      <input required aria-label="Номер телефона" type="tel" placeholder="+7 (___) ___-__-__" value={form.phone}
         onChange={e => setForm({ ...form, phone: e.target.value })}
         className="w-full px-4 py-3 rounded-xl text-sm border outline-none"
         style={{ borderColor: 'var(--border-dark)', color: 'var(--navy)', background: '#fff' }} />
       {!compact && (
-        <input type="text" placeholder="Марка / модель (необязательно)" value={form.comment}
+        <input aria-label="Марка и модель техники (необязательно)" type="text" placeholder="Марка / модель (необязательно)" value={form.comment}
           onChange={e => setForm({ ...form, comment: e.target.value })}
           className="w-full px-4 py-3 rounded-xl text-sm border outline-none"
           style={{ borderColor: 'var(--border-dark)', color: 'var(--navy)', background: '#fff' }} />
@@ -147,7 +147,7 @@ export default function Index() {
       <Header />
 
       {/* ══ HERO ══ */}
-      <section id="home" style={{ background: 'linear-gradient(160deg, #FFFFFF 60%, #FFF7ED 100%)' }}>
+      <section id="home" aria-label="Главная: скупка техники" style={{ background: 'linear-gradient(160deg, #FFFFFF 60%, #FFF7ED 100%)' }}>
         <div className="container mx-auto px-4 py-12 md:py-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
@@ -204,7 +204,7 @@ export default function Index() {
             <div className="flex flex-col gap-4">
               {/* Фото специалиста */}
               <div className="relative rounded-2xl overflow-hidden" style={{ aspectRatio: '16/9' }}>
-                <img src={IMG_SPECIALIST} alt="Специалист оценивает технику" className="w-full h-full object-cover" />
+                <img src={IMG_SPECIALIST} alt="Специалист оценивает технику" fetchPriority="high" className="w-full h-full object-cover" />
                 <div className="absolute bottom-3 left-3">
                   <div className="badge badge-green text-xs">
                     <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse inline-block" />
@@ -246,7 +246,7 @@ export default function Index() {
       </div>
 
       {/* ══ КАК ДОСТАВИТЬ / ФОРМАТЫ РАБОТЫ ══ */}
-      <section id="delivery" className="section" style={{ background: 'var(--bg-soft)' }}>
+      <section id="delivery" aria-label="Способы доставки и форматы работы" className="section" style={{ background: 'var(--bg-soft)' }}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-10">
             <span className="badge badge-orange mb-3 inline-flex">Логистика</span>
@@ -278,7 +278,7 @@ export default function Index() {
           {/* Фото СДЭК */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
             <div className="rounded-2xl overflow-hidden" style={{ aspectRatio: '4/3' }}>
-              <img src={IMG_SDEK} alt="Отправка через СДЭК" className="w-full h-full object-cover" />
+              <img src={IMG_SDEK} alt="Отправка через СДЭК" loading="lazy" className="w-full h-full object-cover" />
             </div>
             <div>
               <h3 className="text-xl font-bold mb-4" style={{ color: 'var(--navy)' }}>
@@ -307,7 +307,7 @@ export default function Index() {
       </section>
 
       {/* ══ ЧТО ПРИНИМАЕМ ══ */}
-      <section id="categories" className="section">
+      <section id="categories" aria-label="Что принимаем" className="section">
         <div className="container mx-auto px-4">
           <div className="text-center mb-8">
             <span className="badge badge-orange mb-3 inline-flex">Принимаем</span>
@@ -321,7 +321,7 @@ export default function Index() {
 
           {/* Фото на весь слайд */}
           <div className="relative rounded-2xl overflow-hidden mb-8" style={{ minHeight: 400, maxHeight: 520 }}>
-            <img src={IMG_STACK} alt="Большой ассортимент техники на выкуп" className="w-full h-full object-cover object-center" style={{ minHeight: 400 }} />
+            <img src={IMG_STACK} alt="Большой ассортимент техники на выкуп" loading="lazy" className="w-full h-full object-cover object-center" style={{ minHeight: 400 }} />
             <div className="absolute inset-0 flex flex-col justify-end p-8"
               style={{ background: 'linear-gradient(to top, rgba(30,41,59,0.85) 0%, transparent 60%)' }}>
               <h3 className="text-2xl md:text-3xl font-black text-white mb-2">Любая техника - любое состояние</h3>
@@ -355,7 +355,7 @@ export default function Index() {
       </section>
 
       {/* ══ БОЛИ ФИЗЛИЦ ══ */}
-      <section id="fizlic" className="section" style={{ background: 'var(--bg-soft)' }}>
+      <section id="fizlic" aria-label="Вопросы и ответы для физических лиц" className="section" style={{ background: 'var(--bg-soft)' }}>
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
@@ -385,7 +385,7 @@ export default function Index() {
             {/* Фото и CTA */}
             <div className="flex flex-col gap-5">
               <div className="relative rounded-2xl overflow-hidden" style={{ aspectRatio: '4/3' }}>
-                <img src={IMG_HAPPY} alt="Клиент доволен выкупом техники" className="w-full h-full object-cover" />
+                <img src={IMG_HAPPY} alt="Клиент доволен выкупом техники" loading="lazy" className="w-full h-full object-cover" />
                 <div className="absolute bottom-4 left-4 right-4">
                   <div className="bg-white rounded-xl px-4 py-3 flex items-center gap-3 shadow-lg">
                     <div className="flex flex-shrink-0">
@@ -419,7 +419,7 @@ export default function Index() {
       </section>
 
       {/* ══ ДЛЯ ЮРЛИЦ ══ */}
-      <section id="yurlica" className="section">
+      <section id="yurlica" aria-label="Юридическим лицам: списание и вывоз техники" className="section">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             <div>
@@ -489,7 +489,7 @@ export default function Index() {
       </section>
 
       {/* ══ ПОЧЕМУ МЫ ══ */}
-      <section id="about" className="section" style={{ background: 'var(--bg-soft)' }}>
+      <section id="about" aria-label="Почему мы — преимущества и сравнение" className="section" style={{ background: 'var(--bg-soft)' }}>
         <div className="container mx-auto px-4">
           <div className="text-center mb-10">
             <span className="badge badge-orange mb-3 inline-flex">О нас</span>
@@ -545,7 +545,7 @@ export default function Index() {
       </section>
 
       {/* ══ АВИТО ДОВЕРИЕ ══ */}
-      <section className="section" style={{ background: 'var(--bg-soft)' }}>
+      <section aria-label="Наш профиль на Авито — доверие и отзывы" className="section" style={{ background: 'var(--bg-soft)' }}>
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center max-w-4xl mx-auto">
             <div>
@@ -571,6 +571,7 @@ export default function Index() {
               <img
                 src="https://cdn.poehali.dev/projects/91e8ab1f-16a6-4a0b-bdfb-9dbf57b7ed9c/bucket/17fe89d4-db78-45ad-9439-f400d132049a.jpg"
                 alt="Наш профиль на Авито - 659 отзывов"
+                loading="lazy"
                 className="w-full rounded-xl"
                 style={{ maxWidth: 280 }}
               />
@@ -581,7 +582,7 @@ export default function Index() {
       </section>
 
       {/* ══ ФОРМА-CTA ══ */}
-      <section id="contact" className="section">
+      <section id="contact" aria-label="Форма оценки техники" className="section">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div>

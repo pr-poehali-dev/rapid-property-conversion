@@ -26,12 +26,12 @@ export default function Header() {
   const location = useLocation();
 
   return (
-    <header className="sticky top-0 z-50 bg-white"
+    <header role="banner" className="sticky top-0 z-50 bg-white"
       style={{ borderBottom: '1.5px solid var(--border-color)', boxShadow: '0 1px 0 rgba(0,0,0,0.04)' }}>
       <div className="container mx-auto px-4 h-16 flex items-center justify-between gap-4">
 
         {/* Лого */}
-        <Link to="/" className="flex items-center gap-2.5 flex-shrink-0" onClick={() => setOpen(false)}>
+        <Link to="/" aria-label="Srochno-Vykup.ru — главная страница" className="flex items-center gap-2.5 flex-shrink-0" onClick={() => setOpen(false)}>
           <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'var(--orange)' }}>
             <Icon name="Cpu" size={16} className="text-white" />
           </div>
@@ -42,7 +42,7 @@ export default function Header() {
         </Link>
 
         {/* Nav — desktop */}
-        <nav className="hidden lg:flex items-center gap-1 flex-1 ml-4">
+        <nav aria-label="Основная навигация" className="hidden lg:flex items-center gap-1 flex-1 ml-4">
           {NAV.map(item => (
             <a key={item.href} href={item.href}
               className="px-3 py-2 rounded-lg text-sm font-medium transition-colors hover:bg-gray-50 whitespace-nowrap"
@@ -54,7 +54,9 @@ export default function Header() {
           {/* Дропдаун категорий */}
           <div className="relative" onMouseEnter={() => setCatOpen(true)} onMouseLeave={() => setCatOpen(false)}>
             <button className="px-3 py-2 rounded-lg text-sm font-medium flex items-center gap-1 hover:bg-gray-50"
-              style={{ color: 'var(--navy-mid)' }}>
+              style={{ color: 'var(--navy-mid)' }}
+              aria-haspopup="true"
+              aria-expanded={catOpen}>
               Категории <Icon name="ChevronDown" size={13} />
             </button>
             {catOpen && (
@@ -86,7 +88,9 @@ export default function Header() {
             Оценить технику
           </a>
           <button onClick={() => setOpen(!open)} className="lg:hidden p-2 rounded-lg"
-            style={{ color: 'var(--navy-mid)' }}>
+            style={{ color: 'var(--navy-mid)' }}
+            aria-label="Открыть меню"
+            aria-expanded={open}>
             <Icon name={open ? 'X' : 'Menu'} size={22} />
           </button>
         </div>

@@ -84,10 +84,11 @@ export function ExitIntentPopup() {
     <div className="fixed inset-0 z-[60] flex items-center justify-center p-4"
       style={{ background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(4px)' }}
       onClick={close}>
-      <div className="relative bg-white rounded-2xl p-8 max-w-sm w-full text-center shadow-2xl"
+      <div role="dialog" aria-modal="true" aria-label="Получить оценку бесплатно"
+        className="relative bg-white rounded-2xl p-8 max-w-sm w-full text-center shadow-2xl"
         style={{ border: '2px solid var(--orange)' }}
         onClick={e => e.stopPropagation()}>
-        <button onClick={close} className="absolute top-3 right-3 p-1 rounded-lg hover:bg-gray-100"
+        <button onClick={close} aria-label="Закрыть" className="absolute top-3 right-3 p-1 rounded-lg hover:bg-gray-100"
           style={{ color: 'var(--text-muted)' }}>
           <Icon name="X" size={18} />
         </button>
@@ -155,6 +156,8 @@ export function LiveActivityTicker() {
 
   return (
     <div
+      role="status"
+      aria-live="polite"
       className="fixed bottom-20 left-4 z-40 max-w-xs hidden md:flex items-start gap-3 p-3 rounded-xl shadow-lg transition-all"
       style={{
         background: '#fff',
@@ -172,7 +175,7 @@ export function LiveActivityTicker() {
         <p className="text-xs font-medium" style={{ color: 'var(--navy)' }}>{ACTIVITIES[idx]}</p>
         <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>только что</p>
       </div>
-      <button onClick={() => setDismissed(true)} className="flex-shrink-0 ml-1"
+      <button onClick={() => setDismissed(true)} aria-label="Закрыть" className="flex-shrink-0 ml-1"
         style={{ color: 'var(--text-muted)' }}>
         <Icon name="X" size={12} />
       </button>
@@ -211,14 +214,14 @@ export function UrgencyBanner() {
   if (!show || !timeLeft) return null;
 
   return (
-    <div className="w-full flex items-center justify-between px-4 py-2.5 text-sm font-medium"
+    <div role="banner" aria-live="polite" className="w-full flex items-center justify-between px-4 py-2.5 text-sm font-medium"
       style={{ background: 'var(--orange)', color: 'white' }}>
       <div className="flex items-center gap-2 container mx-auto justify-center">
         <Icon name="Clock" size={15} />
         <span>Работаем сегодня ещё <strong>{timeLeft}</strong> - оставьте заявку и получите ответ сегодня</span>
         <a href="#form" className="ml-3 underline font-bold text-xs whitespace-nowrap hidden sm:inline">Оценить сейчас</a>
       </div>
-      <button onClick={() => setShow(false)} className="ml-3 flex-shrink-0 opacity-80 hover:opacity-100">
+      <button onClick={() => setShow(false)} aria-label="Закрыть" className="ml-3 flex-shrink-0 opacity-80 hover:opacity-100">
         <Icon name="X" size={14} />
       </button>
     </div>

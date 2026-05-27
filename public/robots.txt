@@ -20,5 +20,27 @@ User-agent: bingbot
 Allow: /
 Crawl-delay: 1
 
+# AI-боты — разрешаем индексацию (для ChatGPT, Claude, Perplexity, Gemini)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
 Sitemap: https://srochno-vykup.ru/sitemap.xml
 Host: https://srochno-vykup.ru
