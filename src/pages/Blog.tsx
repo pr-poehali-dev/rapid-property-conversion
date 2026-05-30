@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -48,52 +49,130 @@ export const posts = [
 ];
 
 export default function Blog() {
+  useEffect(() => {
+    document.title = 'Блог о скупке техники: советы и гайды | Srochno-Vykup.ru';
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.setAttribute('content', 'Полезные статьи о скупке техники, списании в организациях, отправке СДЭК и ценах на б/у устройства. Srochno-Vykup.ru.');
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) canonical.setAttribute('href', 'https://srochno-vykup.ru/blog');
+
+    // Blog Schema
+    const schemaId = 'blog-schema';
+    let existing = document.getElementById(schemaId);
+    if (!existing) {
+      existing = document.createElement('script');
+      existing.id = schemaId;
+      (existing as HTMLScriptElement).type = 'application/ld+json';
+      document.head.appendChild(existing);
+    }
+    existing.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Blog',
+      name: 'Блог Srochno-Vykup.ru',
+      description: 'Статьи о скупке техники, списании ОС в организациях, доставке СДЭК и ценах на б/у устройства.',
+      url: 'https://srochno-vykup.ru/blog',
+      publisher: {
+        '@type': 'Organization',
+        name: 'Srochno-Vykup.ru',
+        url: 'https://srochno-vykup.ru',
+        logo: { '@type': 'ImageObject', url: 'https://srochno-vykup.ru/favicon.svg' },
+      },
+      blogPost: posts.map(p => ({
+        '@type': 'BlogPosting',
+        headline: p.title,
+        description: p.excerpt,
+        url: `https://srochno-vykup.ru/blog/${p.slug}`,
+        datePublished: p.date,
+        author: { '@type': 'Organization', name: 'Srochno-Vykup.ru' },
+        articleSection: p.tag,
+      })),
+    });
+
+    return () => {
+      const el = document.getElementById('blog-schema');
+      if (el) el.remove();
+    };
+  }, []);
+
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
       <Header />
+      <main id="main-content">
 
-      {/* Header block */}
-      <section className="section section-alt">
-        <div className="container mx-auto px-4">
-          <h1 className="text-3xl md:text-4xl font-black mb-3" style={{ color: 'var(--navy)' }}>Блог</h1>
-          <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
-            Полезные статьи о скупке техники, списании и работе с регионами
-          </p>
-        </div>
-      </section>
-
-      {/* Posts grid */}
-      <section className="section">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {posts.map((post) => (
-              <Link key={post.slug} to={`/blog/${post.slug}`}
-                className="card p-6 flex flex-col gap-3 group"
-                style={{ textDecoration: 'none' }}>
-                <div className="inline-flex items-center">
-                  <span className="badge badge-orange">
-                    {post.tag}
-                  </span>
-                </div>
-                <h2 className="font-semibold text-sm leading-snug transition-colors"
-                  style={{ color: 'var(--navy)' }}>
-                  {post.title}
-                </h2>
-                <p className="text-xs leading-relaxed flex-1" style={{ color: 'var(--text-muted)' }}>
-                  {post.excerpt}
-                </p>
-                <div className="flex items-center gap-3 pt-2" style={{ borderTop: '1px solid var(--border-color)' }}>
-                  <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{post.date}</span>
-                  <span className="text-xs flex items-center gap-1" style={{ color: 'var(--text-muted)' }}>
-                    <Icon name="Clock" size={11} />{post.readTime}
-                  </span>
-                </div>
-              </Link>
-            ))}
+        {/* Breadcrumb */}
+        <nav aria-label="Хлебные крошки" className="border-b" style={{ borderColor: 'var(--border-color)', background: 'var(--bg-soft)' }}>
+          <div className="container mx-auto px-4 py-2">
+            <ol className="flex items-center gap-2 text-xs" style={{ color: 'var(--text-muted)' }}
+              itemScope itemType="https://schema.org/BreadcrumbList">
+              <li itemProp="itemListElement" itemScope itemType="https://schema.org/ListItem">
+                <Link to="/" itemProp="item" className="hover:underline" style={{ color: 'var(--text-muted)' }}>
+                  <span itemProp="name">Главная</span>
+                </Link>
+                <meta itemProp="position" content="1" />
+              </li>
+              <li aria-hidden="true">/</li>
+              <li itemProp="itemListElement" itemScope itemType="https://schema.org/ListItem">
+                <span itemProp="name" style={{ color: 'var(--navy)' }}>Блог</span>
+                <meta itemProp="position" content="2" />
+                <link itemProp="item" href="https://srochno-vykup.ru/blog" />
+              </li>
+            </ol>
           </div>
-        </div>
-      </section>
+        </nav>
 
+        {/* Заголовок */}
+        <section className="section section-alt" aria-label="Блог о скупке техники">
+          <div className="container mx-auto px-4">
+            <h1 className="text-3xl md:text-4xl font-black mb-3" style={{ color: 'var(--navy)' }}>
+              Блог
+            </h1>
+            <p className="text-sm" style={{ color: 'var(--text-muted)' }}>
+              Полезные статьи о скупке техники, списании в организациях и работе с регионами
+            </p>
+          </div>
+        </section>
+
+        {/* Посты */}
+        <section className="section" aria-label="Список статей">
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {posts.map((post) => (
+                <article key={post.slug}
+                  itemScope itemType="https://schema.org/BlogPosting">
+                  <Link to={`/blog/${post.slug}`}
+                    className="card p-6 flex flex-col gap-3 group h-full"
+                    style={{ textDecoration: 'none', display: 'flex' }}
+                    itemProp="url">
+                    <div className="inline-flex items-center">
+                      <span className="badge badge-orange">{post.tag}</span>
+                    </div>
+                    <h2 className="font-semibold text-sm leading-snug transition-colors"
+                      style={{ color: 'var(--navy)' }}
+                      itemProp="headline">
+                      {post.title}
+                    </h2>
+                    <p className="text-xs leading-relaxed flex-1" style={{ color: 'var(--text-muted)' }}
+                      itemProp="description">
+                      {post.excerpt}
+                    </p>
+                    <div className="flex items-center gap-3 pt-2" style={{ borderTop: '1px solid var(--border-color)' }}>
+                      <time dateTime={post.date} className="text-xs" style={{ color: 'var(--text-muted)' }}
+                        itemProp="datePublished">
+                        {post.date}
+                      </time>
+                      <span className="text-xs flex items-center gap-1" style={{ color: 'var(--text-muted)' }}>
+                        <Icon name="Clock" size={11} aria-hidden="true" />{post.readTime}
+                      </span>
+                    </div>
+                    <meta itemProp="author" content="Srochno-Vykup.ru" />
+                  </Link>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+      </main>
       <Footer />
       <FloatingButtons />
     </div>

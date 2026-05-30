@@ -145,8 +145,13 @@ export default function Index() {
     <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
       <UrgencyBanner />
       <Header />
+      {/* skip-link для доступности */}
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 btn-primary z-50">
+        Перейти к содержимому
+      </a>
 
       {/* ══ HERO ══ */}
+      <main id="main-content">
       <section id="home" aria-label="Главная: скупка техники" style={{ background: 'linear-gradient(160deg, #FFFFFF 60%, #FFF7ED 100%)' }}>
         <div className="container mx-auto px-4 py-12 md:py-20">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -642,6 +647,7 @@ export default function Index() {
 
       <ReviewsSection />
 
+      </main>
       <Footer />
       <FloatingButtons />
       <StickyCtaBar />

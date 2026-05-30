@@ -32,9 +32,21 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://mc.yandex.ru https://cdn.poehali.dev https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https:; font-src 'self' https://fonts.gstatic.com data:; frame-ancestors 'none';" />
     <meta http-equiv="X-Frame-Options" content="DENY" />
 
+    <!-- ═══ ЯНДЕКС TURBO + ДОПОЛНИТЕЛЬНЫЕ МЕТА ═══ -->
+    <meta name="turbo" content="true" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="format-detection" content="telephone=yes" />
+    <meta name="rating" content="general" />
+    <meta name="revisit-after" content="7 days" />
+
     <!-- ═══ ШРИФТЫ — preconnect + preload ═══ -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- preconnect к Яндекс Метрике для скорости -->
+    <link rel="preconnect" href="https://mc.yandex.ru" />
+    <link rel="dns-prefetch" href="https://mc.yandex.ru" />
+    <link rel="dns-prefetch" href="https://cdn.poehali.dev" />
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" />
 
@@ -334,6 +346,131 @@
     }
     </script>
 
+    <!-- ═══ SCHEMA.ORG — Service/Product с ценами (богатые сниппеты Яндекса) ═══ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Скупка ноутбуков и компьютерной техники",
+      "serviceType": "Скупка и утилизация техники",
+      "provider": {"@type": "Organization", "@id": "https://srochno-vykup.ru/#organization"},
+      "areaServed": {"@type": "Country", "name": "Россия"},
+      "description": "Выкупаем ноутбуки, смартфоны, ПК, оргтехнику. Оценка по фото за 5 минут. Оплата в день сделки.",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "Скупка ноутбука",
+          "description": "Выкуп ноутбуков Apple MacBook, ASUS, Lenovo, Dell, HP, MSI в любом состоянии",
+          "priceCurrency": "RUB",
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "minPrice": 1000,
+            "maxPrice": 80000,
+            "priceCurrency": "RUB"
+          },
+          "availability": "https://schema.org/InStock",
+          "validFrom": "2026-01-01",
+          "url": "https://srochno-vykup.ru/noutbuki"
+        },
+        {
+          "@type": "Offer",
+          "name": "Скупка смартфона iPhone или Android",
+          "description": "Выкуп iPhone, Samsung Galaxy, Xiaomi — рабочие и с дефектами",
+          "priceCurrency": "RUB",
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "minPrice": 500,
+            "maxPrice": 50000,
+            "priceCurrency": "RUB"
+          },
+          "availability": "https://schema.org/InStock",
+          "url": "https://srochno-vykup.ru/telefony"
+        },
+        {
+          "@type": "Offer",
+          "name": "Скупка ПК и комплектующих",
+          "description": "Системные блоки, видеокарты, процессоры, ОЗУ — отдельно и в сборе",
+          "priceCurrency": "RUB",
+          "priceSpecification": {
+            "@type": "PriceSpecification",
+            "minPrice": 1000,
+            "maxPrice": 100000,
+            "priceCurrency": "RUB"
+          },
+          "availability": "https://schema.org/InStock",
+          "url": "https://srochno-vykup.ru/kompyutery"
+        },
+        {
+          "@type": "Offer",
+          "name": "Утилизация и вывоз оргтехники для организаций",
+          "description": "Вывоз техники с баланса организации, оформление ОС-4, уничтожение данных",
+          "availability": "https://schema.org/InStock",
+          "url": "https://srochno-vykup.ru/dlya-organizaciy"
+        }
+      ],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "659",
+        "bestRating": "5"
+      }
+    }
+    </script>
+
+    <!-- ═══ SCHEMA.ORG — HowTo (пошаговая инструкция — Яндекс rich snippet) ═══ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "Как продать технику через Srochno-Vykup.ru",
+      "description": "Простой способ продать ноутбук, смартфон или ПК дорого и быстро",
+      "totalTime": "PT15M",
+      "estimatedCost": {"@type": "MonetaryAmount", "currency": "RUB", "value": "0"},
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Пришлите фото техники",
+          "text": "Сфотографируйте устройство и отправьте в WhatsApp +7 (901) 345-60-08 или Telegram @richsmm1",
+          "url": "https://srochno-vykup.ru/#contact"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Получите оценку за 5–15 минут",
+          "text": "Наш специалист свяжется с вами в течение 15 минут и назовёт финальную цену",
+          "url": "https://srochno-vykup.ru/#contact"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Выберите удобный способ",
+          "text": "Москва: привезите сами или мы выедем к вам. Регионы: отправьте СДЭК, Яндекс или Авито доставкой.",
+          "url": "https://srochno-vykup.ru/#delivery"
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Получите деньги в день сделки",
+          "text": "Москва: оплата наличными при передаче. Регионы: перевод на карту в день получения посылки.",
+          "url": "https://srochno-vykup.ru/#contact"
+        }
+      ]
+    }
+    </script>
+
+    <!-- ═══ ДУБЛИН-МЕТА (Dublin Core — дополнительные мета-данные) ═══ -->
+    <meta name="DC.title" content="Скупка техники в Москве и по России — Srochno-Vykup.ru" />
+    <meta name="DC.description" content="Выкупим ноутбук, смартфон, ПК или оргтехнику. Оценка за 5 минут. Оплата в день сделки." />
+    <meta name="DC.subject" content="скупка техники, выкуп ноутбуков, утилизация оргтехники" />
+    <meta name="DC.language" content="ru" />
+    <meta name="DC.coverage" content="Россия" />
+    <meta name="DC.creator" content="Srochno-Vykup.ru" />
+    <meta name="DC.publisher" content="Srochno-Vykup.ru" />
+    <meta name="DC.type" content="Service" />
+    <meta name="DC.format" content="text/html" />
+    <meta name="DC.identifier" content="https://srochno-vykup.ru/" />
+
     <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS COMMENT! -->
     <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS COMMENT! -->
     <script src="https://cdn.poehali.dev/intertnal/js/pp-min-2.js"></script>
@@ -343,7 +480,7 @@
 
     <meta name="pp-name" value="rapid-property-conversion" />
     <script src="https://cdn.poehali.dev/intertnal/js/inspector-min.js"></script>
-    <meta name="pp-name" value="rapid-property-conversion">
+      <meta name="pp-name" value="rapid-property-conversion">
   </head>
 
 <body>

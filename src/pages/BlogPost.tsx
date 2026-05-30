@@ -1,9 +1,13 @@
+import { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import FloatingButtons from '@/components/FloatingButtons';
 import { posts } from './Blog';
 import Icon from '@/components/ui/icon';
+
+const WA = 'https://wa.me/79013456008?text=Здравствуйте!%20Хочу%20оценить%20технику.';
+const TG = 'https://t.me/richsmm1';
 
 const content: Record<string, string> = {
   'kak-spisat-tehniku-v-organizacii': `
@@ -32,6 +36,7 @@ const content: Record<string, string> = {
 <p><strong>До 2 000 ₽:</strong> старые ноутбуки 2012–2016 года, нерабочие устройства, с серьёзными повреждениями.</p>
 <p><strong>2 000 – 7 000 ₽:</strong> рабочие ноутбуки 2017–2020 года, офисные конфигурации, Celeron/i3/i5 с HDD.</p>
 <p><strong>7 000 – 15 000 ₽:</strong> современные ноутбуки 2020+, с SSD, i5/i7/Ryzen 5, 8–16 ГБ ОЗУ, в хорошем состоянии.</p>
+<p><strong>15 000 – 80 000 ₽:</strong> MacBook Air M1/M2/M3, игровые ноутбуки MSI/ROG с RTX видеокартой.</p>
 <h2>Что снижает цену</h2>
 <ul><li>Сломанный экран или петли</li><li>Нерабочий аккумулятор</li><li>Не включается</li><li>Отсутствие зарядки или крышки</li></ul>
 <h2>Как получить максимум</h2>
@@ -82,14 +87,70 @@ export default function BlogPost() {
   const post = posts.find((p) => p.slug === slug);
   const body = content[slug || ''];
 
+  useEffect(() => {
+    if (post) {
+      document.title = `${post.title} | Srochno-Vykup.ru`;
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) metaDesc.setAttribute('content', post.excerpt);
+      const canonical = document.querySelector('link[rel="canonical"]');
+      if (canonical) canonical.setAttribute('href', `https://srochno-vykup.ru/blog/${post.slug}`);
+      const robots = document.querySelector('meta[name="robots"]');
+      if (robots) robots.setAttribute('content', 'index, follow');
+
+      // Article Schema.org
+      const schemaId = 'blogpost-schema';
+      let existing = document.getElementById(schemaId);
+      if (!existing) {
+        existing = document.createElement('script');
+        existing.id = schemaId;
+        (existing as HTMLScriptElement).type = 'application/ld+json';
+        document.head.appendChild(existing);
+      }
+      existing.textContent = JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline: post.title,
+        description: post.excerpt,
+        author: {
+          '@type': 'Organization',
+          name: 'Srochno-Vykup.ru',
+          url: 'https://srochno-vykup.ru',
+        },
+        publisher: {
+          '@type': 'Organization',
+          name: 'Srochno-Vykup.ru',
+          logo: {
+            '@type': 'ImageObject',
+            url: 'https://srochno-vykup.ru/favicon.svg',
+          },
+        },
+        datePublished: post.date,
+        dateModified: post.date,
+        url: `https://srochno-vykup.ru/blog/${post.slug}`,
+        inLanguage: 'ru-RU',
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': `https://srochno-vykup.ru/blog/${post.slug}`,
+        },
+        articleSection: post.tag,
+      });
+    }
+    return () => {
+      const el = document.getElementById('blogpost-schema');
+      if (el) el.remove();
+    };
+  }, [post]);
+
   if (!post || !body) {
     return (
       <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
         <Header />
-        <div className="container mx-auto px-4 py-24 text-center">
-          <p style={{ color: 'var(--text-muted)' }}>Статья не найдена</p>
-          <Link to="/blog" className="btn-primary text-sm mt-4 inline-flex">Вернуться в блог</Link>
-        </div>
+        <main>
+          <div className="container mx-auto px-4 py-24 text-center">
+            <p style={{ color: 'var(--text-muted)' }}>Статья не найдена</p>
+            <Link to="/blog" className="btn-primary text-sm mt-4 inline-flex">Вернуться в блог</Link>
+          </div>
+        </main>
         <Footer />
       </div>
     );
@@ -98,54 +159,116 @@ export default function BlogPost() {
   return (
     <div style={{ background: 'var(--bg)', minHeight: '100vh' }}>
       <Header />
+      <main id="main-content">
 
-      <article className="section">
-        <div className="container mx-auto px-4 max-w-2xl">
-          <Link to="/blog" className="inline-flex items-center gap-1 text-sm mb-8 transition-colors"
-            style={{ color: 'var(--text-muted)' }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--navy)')}
-            onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}>
-            <Icon name="ArrowLeft" size={14} />
-            Все статьи
-          </Link>
-
-          <div className="mb-2">
-            <span className="badge badge-orange">
-              {post.tag}
-            </span>
+        {/* Breadcrumb */}
+        <nav aria-label="Хлебные крошки" className="border-b" style={{ borderColor: 'var(--border-color)', background: 'var(--bg-soft)' }}>
+          <div className="container mx-auto px-4 py-2">
+            <ol className="flex items-center gap-2 text-xs" style={{ color: 'var(--text-muted)' }}
+              itemScope itemType="https://schema.org/BreadcrumbList">
+              <li itemProp="itemListElement" itemScope itemType="https://schema.org/ListItem">
+                <Link to="/" itemProp="item" className="hover:underline" style={{ color: 'var(--text-muted)' }}>
+                  <span itemProp="name">Главная</span>
+                </Link>
+                <meta itemProp="position" content="1" />
+              </li>
+              <li aria-hidden="true">/</li>
+              <li itemProp="itemListElement" itemScope itemType="https://schema.org/ListItem">
+                <Link to="/blog" itemProp="item" className="hover:underline" style={{ color: 'var(--text-muted)' }}>
+                  <span itemProp="name">Блог</span>
+                </Link>
+                <meta itemProp="position" content="2" />
+              </li>
+              <li aria-hidden="true">/</li>
+              <li itemProp="itemListElement" itemScope itemType="https://schema.org/ListItem">
+                <span itemProp="name" style={{ color: 'var(--navy)' }}>{post.title}</span>
+                <meta itemProp="position" content="3" />
+                <link itemProp="item" href={`https://srochno-vykup.ru/blog/${post.slug}`} />
+              </li>
+            </ol>
           </div>
-          <h1 className="text-2xl md:text-3xl font-black mb-4 leading-tight" style={{ color: 'var(--navy)' }}>
-            {post.title}
-          </h1>
-          <div className="flex items-center gap-4 mb-8 text-xs" style={{ color: 'var(--text-muted)' }}>
-            <span>{post.date}</span>
-            <span className="flex items-center gap-1">
-              <Icon name="Clock" size={11} />{post.readTime}
-            </span>
+        </nav>
+
+        <article
+          className="section"
+          itemScope
+          itemType="https://schema.org/Article"
+        >
+          <div className="container mx-auto px-4 max-w-2xl">
+
+            <div className="mb-3">
+              <span className="badge badge-orange">{post.tag}</span>
+            </div>
+
+            <h1
+              className="text-2xl md:text-3xl font-black mb-4 leading-tight"
+              style={{ color: 'var(--navy)' }}
+              itemProp="headline"
+            >
+              {post.title}
+            </h1>
+
+            <div className="flex items-center gap-4 mb-8 text-xs" style={{ color: 'var(--text-muted)' }}>
+              <time dateTime={post.date} itemProp="datePublished">{post.date}</time>
+              <span className="flex items-center gap-1">
+                <Icon name="Clock" size={11} aria-hidden="true" />
+                {post.readTime}
+              </span>
+              <span itemProp="author" itemScope itemType="https://schema.org/Organization" style={{ display: 'none' }}>
+                <meta itemProp="name" content="Srochno-Vykup.ru" />
+              </span>
+            </div>
+
+            <div
+              className="prose-light text-sm leading-relaxed"
+              itemProp="articleBody"
+              dangerouslySetInnerHTML={{ __html: body }}
+            />
+
+            {/* CTA блок */}
+            <div className="mt-12 p-6 rounded-2xl"
+              style={{ background: 'var(--orange-bg)', border: '1px solid var(--orange-light)' }}>
+              <p className="font-semibold mb-2 text-center" style={{ color: 'var(--navy)' }}>
+                Хотите оценить технику?
+              </p>
+              <p className="text-xs mb-4 text-center" style={{ color: 'var(--text-muted)' }}>
+                Пришлите фото — ответим за 5 минут
+              </p>
+              <div className="flex gap-3 justify-center">
+                <a href={TG} target="_blank" rel="noopener noreferrer"
+                  aria-label="Оценить технику в Telegram"
+                  className="btn-primary text-sm">
+                  <Icon name="Send" size={14} aria-hidden="true" />
+                  Telegram
+                </a>
+                <a href={WA} target="_blank" rel="noopener noreferrer"
+                  aria-label="Оценить технику в WhatsApp"
+                  className="btn-ghost text-sm">
+                  <Icon name="MessageCircle" size={14} aria-hidden="true" />
+                  WhatsApp
+                </a>
+              </div>
+            </div>
+
+            {/* Другие статьи */}
+            <div className="mt-10">
+              <h2 className="text-base font-bold mb-4" style={{ color: 'var(--navy)' }}>Другие статьи</h2>
+              <div className="flex flex-col gap-3">
+                {posts.filter(p => p.slug !== slug).slice(0, 3).map(p => (
+                  <Link key={p.slug} to={`/blog/${p.slug}`}
+                    className="flex items-start gap-3 p-3 rounded-xl transition-all hover:shadow-sm"
+                    style={{ border: '1px solid var(--border-color)', background: 'white' }}>
+                    <Icon name="FileText" size={14} style={{ color: 'var(--orange)', flexShrink: 0, marginTop: 2 }} aria-hidden="true" />
+                    <span className="text-sm" style={{ color: 'var(--navy)' }}>{p.title}</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
           </div>
+        </article>
 
-          <div
-            className="prose-light text-sm leading-relaxed"
-            dangerouslySetInnerHTML={{ __html: body }}
-          />
-
-          <div className="mt-12 p-6 rounded-2xl text-center"
-            style={{
-              background: 'var(--orange-bg)',
-              border: '1px solid var(--orange-light)',
-            }}>
-            <p className="font-semibold mb-2" style={{ color: 'var(--navy)' }}>Хотите оценить технику?</p>
-            <p className="text-xs mb-4" style={{ color: 'var(--text-muted)' }}>
-              Перезвоним в течение 15 минут
-            </p>
-            <a href="/#form" className="btn-primary text-sm inline-flex">
-              <Icon name="Zap" size={14} />
-              Оценить бесплатно
-            </a>
-          </div>
-        </div>
-      </article>
-
+      </main>
       <Footer />
       <FloatingButtons />
     </div>
