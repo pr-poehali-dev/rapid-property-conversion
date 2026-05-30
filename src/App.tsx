@@ -10,6 +10,7 @@ import CategoryPage from "./pages/CategoryPage";
 import CityPage from "./pages/CityPage";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
+import Calculator from "./pages/Calculator";
 import Custom404 from "./pages/Custom404";
 
 const queryClient = new QueryClient();
@@ -38,6 +39,9 @@ const App = () => (
           <Route path="/kazan" element={<CityPage />} />
           <Route path="/ekb" element={<CityPage />} />
           <Route path="/novosibirsk" element={<CityPage />} />
+
+          {/* Калькулятор */}
+          <Route path="/calculator" element={<Calculator />} />
 
           {/* Блог */}
           <Route path="/blog" element={<Blog />} />

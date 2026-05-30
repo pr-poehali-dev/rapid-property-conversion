@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import FloatingButtons from '@/components/FloatingButtons';
@@ -350,11 +351,15 @@ export default function Index() {
             ))}
           </div>
 
-          <div className="text-center mt-8">
+          <div className="text-center mt-8 flex flex-col sm:flex-row gap-3 justify-center">
             <a href={WA} target="_blank" rel="noopener noreferrer" className="btn-primary">
               <Icon name="MessageCircle" size={16} />
               Оценить мою технику
             </a>
+            <Link to="/calculator" className="btn-ghost">
+              <Icon name="Calculator" size={16} />
+              Калькулятор цен
+            </Link>
           </div>
         </div>
       </section>

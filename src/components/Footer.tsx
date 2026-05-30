@@ -108,6 +108,7 @@ export default function Footer() {
             <h4 className="text-xs font-bold uppercase tracking-widest mb-3 mt-5 text-white">Информация</h4>
             <ul className="flex flex-col gap-2">
               {[
+                { label: 'Калькулятор цен', href: '/calculator' },
                 { label: 'Блог', href: '/blog' },
                 { label: 'Вопрос и ответ', href: '/#faq' },
               ].map(l => (

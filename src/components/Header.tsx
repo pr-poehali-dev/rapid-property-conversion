@@ -9,6 +9,7 @@ const NAV = [
   { label: 'Физлицам', href: '/#fizlic' },
   { label: 'Юрлицам', href: '/#yurlica' },
   { label: 'Доставка', href: '/#delivery' },
+  { label: 'Калькулятор цен', href: '/calculator' },
   { label: 'Блог', href: '/blog' },
 ];
 
